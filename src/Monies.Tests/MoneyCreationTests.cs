@@ -9,14 +9,14 @@ namespace Monies.Tests
         [Fact]
         public void Try_to_create_money_without_currency_fails()
         {
-            Assert.Throws<ArgumentNullException>(() => new Money<object>(100, null));
+            Assert.Throws<ArgumentNullException>(() => Money.Create<object>(100, null));
         }
 
         [Theory]
         [MemberData(nameof(ValidCases))]
         public void Created_money_has_expected_values(decimal amount, string currency)
         {
-            var actual = new Money<string>(amount, currency);
+            var actual = Money.Create(amount, currency);
 
             Assert.NotNull(actual);
             Assert.Equal(amount, actual.Amount);
