@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace Monies.Tests
@@ -7,9 +6,9 @@ namespace Monies.Tests
     public class MoneyCreationTests
     {
         [Fact]
-        public void Try_to_create_money_without_currency_fails()
+        public void Cannot_create_money_without_currency()
         {
-            Assert.Throws<ArgumentNullException>(() => Money.Create<object>(100, null));
+            Assert.Throws<ArgumentNullException>(() => Money.Create<string>(100, null));
         }
 
         [Theory]
@@ -23,15 +22,15 @@ namespace Monies.Tests
             Assert.Equal(currency, actual.Currency);
         }
 
-        public static IEnumerable<object[]> ValidCases => new[]
+        public static TheoryData<decimal, string> ValidCases => new TheoryData<decimal, string>
         {
-            new object[] { 100, "$" },
-            new object[] { 3.1415m, "USD" },
-            new object[] { decimal.MaxValue, string.Empty },
-            new object[] { decimal.Zero, "EUR" },
-            new object[] { -42, "€" },
-            new object[] { -765.43m, "XAU" },
-            new object[] { decimal.MinValue, "cent" },
+            { 100, "$" },
+            { 3.1415m, "USD" },
+            { decimal.MaxValue, string.Empty },
+            { decimal.Zero, "EUR" },
+            { -42, "€" },
+            { -765.43m, "XAU" },
+            { decimal.MinValue, "cent" },
         };
     }
 }
