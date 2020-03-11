@@ -1,5 +1,7 @@
 # Monies
 
+![CI](https://github.com/ariasemis/monies/workflows/CI/badge.svg)
+
 Yet another money class written in C#
 
 This library aims to solve the following issues:
