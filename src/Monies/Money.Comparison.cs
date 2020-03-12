@@ -6,7 +6,17 @@ namespace Monies
     {
         public static bool operator <(Money<TCurrency> left, Money<TCurrency> right)
         {
-            throw new NotImplementedException();
+            if (right is null)
+                return false;
+
+            if (left is null)
+                return true;
+
+            if (!left.Currency.Equals(right.Currency))
+                throw new InvalidOperationException(
+                    $"Cannot compare monies with different currency. Expected: {left.Currency}, Actual: {right.Currency}");
+
+            return left.Amount < right.Amount;
         }
 
         public static bool operator >(Money<TCurrency> left, Money<TCurrency> right) => right < left;
@@ -17,12 +27,24 @@ namespace Monies
 
         public int CompareTo(object obj)
         {
-            throw new NotImplementedException();
+            if (obj is null)
+                return 1;
+
+            if (!(obj is Money<TCurrency> other))
+                throw new ArgumentException($"{nameof(obj)} must be of type {typeof(Money<TCurrency>).Name}", nameof(obj));
+
+            return CompareTo(other);
         }
 
         public int CompareTo(Money<TCurrency> other)
         {
-            throw new NotImplementedException();
+            if (other is null || other < this)
+                return 1;
+
+            if (this < other)
+                return -1;
+
+            return 0;
         }
     }
 }
