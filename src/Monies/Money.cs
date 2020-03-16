@@ -23,5 +23,8 @@ namespace Monies
         public decimal Amount { get; }
 
         public TCurrency Currency { get; }
+
+        public override string ToString()
+            => $"{Amount} ({Currency})";
     }
 }
