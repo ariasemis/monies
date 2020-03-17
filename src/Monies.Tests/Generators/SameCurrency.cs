@@ -8,6 +8,11 @@ namespace Monies.Tests.Generators
     {
         public SameCurrency(Money<T> first, Money<T> second, Money<T> third)
         {
+            if (!first.Currency.Equals(second.Currency) || !first.Currency.Equals(third.Currency))
+            {
+                throw new ArgumentException("all monies must have the same currency");
+            }
+
             First = first;
             Second = second;
             Third = third;

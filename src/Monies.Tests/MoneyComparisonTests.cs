@@ -163,7 +163,7 @@ namespace Monies.Tests
         [Property]
         public void Cannot_compare_money_with_another_object(Money<T> x)
         {
-            var y = new { Amount = 1, Currency = "$" };
+            var y = new { x.Amount, x.Currency };
 
             Assert.Throws<ArgumentException>(() => x.CompareTo(y));
         }
@@ -248,14 +248,14 @@ namespace Monies.Tests
 
         [Theory]
         [MemberData(nameof(DifferentCurrencies))]
-        public void Cannot_compare_money_with_different_currencies<T>(Money<T> m1, Money<T> m2) where T : IEquatable<T>
+        public void Cannot_compare_money_with_different_currencies<T>(Money<T> x, Money<T> y) where T : IEquatable<T>
         {
-            Assert.Throws<InvalidOperationException>(() => m1.CompareTo(m2));
-            Assert.Throws<InvalidOperationException>(() => m1.CompareTo((object)m2));
-            Assert.Throws<InvalidOperationException>(() => m1 < m2);
-            Assert.Throws<InvalidOperationException>(() => m1 > m2);
-            Assert.Throws<InvalidOperationException>(() => m1 <= m2);
-            Assert.Throws<InvalidOperationException>(() => m1 >= m2);
+            Assert.Throws<InvalidOperationException>(() => x.CompareTo(y));
+            Assert.Throws<InvalidOperationException>(() => x.CompareTo((object)y));
+            Assert.Throws<InvalidOperationException>(() => x < y);
+            Assert.Throws<InvalidOperationException>(() => x > y);
+            Assert.Throws<InvalidOperationException>(() => x <= y);
+            Assert.Throws<InvalidOperationException>(() => x >= y);
         }
     }
 
