@@ -26,5 +26,12 @@ namespace Monies
 
         public override string ToString()
             => $"{Amount} ({Currency})";
+
+        private static void AssertSameCurrency(Money<TCurrency> left, Money<TCurrency> right)
+        {
+            if (!left.Currency.Equals(right.Currency))
+                throw new InvalidOperationException(
+                    $"Cannot compare monies with different currency. Expected: {left.Currency}, Actual: {right.Currency}");
+        }
     }
 }

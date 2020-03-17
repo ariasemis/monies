@@ -12,9 +12,7 @@ namespace Monies
             if (left is null)
                 return true;
 
-            if (!left.Currency.Equals(right.Currency))
-                throw new InvalidOperationException(
-                    $"Cannot compare monies with different currency. Expected: {left.Currency}, Actual: {right.Currency}");
+            AssertSameCurrency(left, right);
 
             return left.Amount < right.Amount;
         }
