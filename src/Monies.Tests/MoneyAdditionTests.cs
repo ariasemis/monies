@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Monies.Tests
 {
-    [Properties(Arbitrary = new[] { typeof(MoneyArbitrary), typeof(SameCurrencyArbitrary) }, QuietOnSuccess = true, Replay = "1614940723,296719679")]
+    [Properties(Arbitrary = new[] { typeof(MoneyArbitrary), typeof(SameCurrencyArbitrary) }, QuietOnSuccess = true)]
     public class MoneyAdditionTests
     {
         [Property]
@@ -17,7 +17,7 @@ namespace Monies.Tests
             Assert.Equal(x.Add(y), y.Add(x));
         }
 
-        [Property]
+        [Property(Skip = "decimal datatype does not support associativity without rounding")]
         public void Adding_3_monies_in_any_order_returns_the_same_result(SameCurrency<string> monies)
         {
             var (x, y, z) = monies;
