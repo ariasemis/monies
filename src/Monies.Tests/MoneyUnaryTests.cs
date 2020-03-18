@@ -1,0 +1,33 @@
+﻿using FsCheck.Xunit;
+using Monies.Tests.Generators;
+using System;
+using Xunit;
+
+namespace Monies.Tests
+{
+    [Properties(Arbitrary = new[] { typeof(MoneyArbitrary) }, QuietOnSuccess = true)]
+    public class MoneyUnaryTests
+    {
+        [Property]
+        public void Negating_money_returns_money_with_negated_amount(Money<string> x)
+        {
+            var abs = Math.Abs(x.Amount);
+
+            Assert.Equal(abs, Math.Abs((-x).Amount));
+            Assert.Equal(abs, Math.Abs(x.Negate().Amount));
+
+            var sign = Math.Sign(x.Amount) * -1;
+
+            Assert.Equal(sign, Math.Sign((-x).Amount));
+            Assert.Equal(sign, Math.Sign(x.Negate().Amount));
+        }
+
+        [Fact]
+        public void Negating_null_returns_null()
+        {
+            Money<string> x = null;
+
+            Assert.Null(-x);
+        }
+    }
+}
