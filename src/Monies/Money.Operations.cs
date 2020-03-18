@@ -15,8 +15,20 @@
             return Money.Create(left.Amount + right.Amount, left.Currency);
         }
 
+        public static Money<TCurrency> operator -(Money<TCurrency> left, Money<TCurrency> right)
+        {
+            if (left is null || right is null)
+                return null;
+
+            AssertSameCurrency(left, right);
+
+            return Money.Create(left.Amount - right.Amount, left.Currency);
+        }
+
         public Money<TCurrency> Negate() => -this;
 
         public Money<TCurrency> Add(Money<TCurrency> other) => this + other;
+
+        public Money<TCurrency> Subtract(Money<TCurrency> other) => this - other;
     }
 }
