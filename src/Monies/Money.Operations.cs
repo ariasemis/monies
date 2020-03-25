@@ -25,10 +25,15 @@
             return Money.Create(left.Amount - right.Amount, left.Currency);
         }
 
+        public static Money<TCurrency> operator *(Money<TCurrency> multiplier, decimal multiplicand)
+            => multiplier == null ? null : Money.Create(multiplier.Amount * multiplicand, multiplier.Currency);
+
         public Money<TCurrency> Negate() => -this;
 
         public Money<TCurrency> Add(Money<TCurrency> other) => this + other;
 
         public Money<TCurrency> Subtract(Money<TCurrency> other) => this - other;
+
+        public Money<TCurrency> Multiply(decimal times) => this * times;
     }
 }
