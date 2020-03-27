@@ -1,12 +1,13 @@
 ﻿using FsCheck;
 using FsCheck.Xunit;
+using Monies.Tests.Attributes;
 using Monies.Tests.Generators;
 using System.Linq;
 using Xunit;
 
 namespace Monies.Tests
 {
-    [Properties(Arbitrary = new[] { typeof(MoneyArbitrary), typeof(SameCurrencyArbitrary) }, QuietOnSuccess = true)]
+    [MoneyProperties(QuietOnSuccess = true)]
     public class MoneyMultiplicationTests
     {
         [Property(Skip = "cannot compare decimals without rounding")]

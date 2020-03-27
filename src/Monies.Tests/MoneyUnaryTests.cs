@@ -1,11 +1,11 @@
 ﻿using FsCheck.Xunit;
-using Monies.Tests.Generators;
+using Monies.Tests.Attributes;
 using System;
 using Xunit;
 
 namespace Monies.Tests
 {
-    [Properties(Arbitrary = new[] { typeof(MoneyArbitrary) }, QuietOnSuccess = true)]
+    [MoneyProperties(QuietOnSuccess = true)]
     public class MoneyUnaryTests
     {
         [Property]
