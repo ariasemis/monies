@@ -18,7 +18,7 @@ namespace Monies.Tests
             Assert.Equal(x.Add(y), y.Add(x));
         }
 
-        [Property(Skip = "decimal datatype does not support associativity without rounding")]
+        [Property]
         public void Adding_3_monies_in_any_order_returns_the_same_result(SameCurrency<string> monies)
         {
             var (x, y, z) = monies;

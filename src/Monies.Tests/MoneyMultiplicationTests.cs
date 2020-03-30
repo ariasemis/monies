@@ -11,7 +11,7 @@ namespace Monies.Tests
     public class MoneyMultiplicationTests
     {
         [Property(Skip = "cannot compare decimals without rounding")]
-        public void Multiplying_3_values_in_any_order_returns_the_same_result(Money<string> x, decimal y, decimal z)
+        public void Multiplying_3_values_in_any_order_returns_the_same_result(Money<string> x, short y, short z)
         {
             Assert.Equal(x * y * z, x * (y * z));
             Assert.Equal(x.Multiply(y).Multiply(z), x.Multiply(y * z));

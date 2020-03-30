@@ -10,7 +10,8 @@ namespace Monies.Tests.Attributes
             Arbitrary = new[]
             {
                 typeof(MoneyArbitrary),
-                typeof(SameCurrencyArbitrary)
+                typeof(SameCurrencyArbitrary),
+                typeof(AmountArbitrary)
             };
         }
     }
@@ -22,7 +23,8 @@ namespace Monies.Tests.Attributes
             Arbitrary = new[]
             {
                 typeof(MoneyArbitrary),
-                typeof(SameCurrencyArbitrary)
+                typeof(SameCurrencyArbitrary),
+                typeof(AmountArbitrary)
             };
         }
     }
