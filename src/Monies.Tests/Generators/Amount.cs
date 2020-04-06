@@ -23,10 +23,11 @@ namespace Monies.Tests.Generators
             => from low in Gen.Choose(0, 1000)
                from mid in Gen.Choose(0, 100)
                from scale in Gen.Choose(0, 6)
+               from sign in Arb.Default.Bool().Generator
                from val in Gen.Elements(new[]
                {
-                   new decimal(low, mid, 0, false, (byte)scale),
-                   new decimal(low, 0, 0, false, (byte)scale)
+                   new decimal(low, mid, 0, sign, (byte)scale),
+                   new decimal(low, 0, 0, sign, (byte)scale)
                })
                select val;
     }
