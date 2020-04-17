@@ -33,6 +33,15 @@ namespace Monies.Tests
         }
 
         [Property]
+        public void Substracting_y_to_x_is_the_same_as_adding_opposite_of_y_to_x(SameCurrency<string> monies)
+        {
+            var (x, y) = monies;
+
+            Assert.Equal(x - y, x + (-y));
+            Assert.Equal(x.Subtract(y), x.Add(y.Negate()));
+        }
+
+        [Property]
         public void Substracting_null_money_returns_null(Money<string> x)
         {
             Assert.Null(x.Subtract(null));

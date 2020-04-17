@@ -39,6 +39,15 @@ namespace Monies.Tests
         }
 
         [Property]
+        public void Adding_the_opposite_returns_zero_money(Money<string> x)
+        {
+            var zero = Money.Create(0, x.Currency);
+
+            Assert.Equal(zero, x + (-x));
+            Assert.Equal(zero, x.Add(x.Negate()));
+        }
+
+        [Property]
         public void Adding_null_to_a_money_returns_null(Money<string> x)
         {
             Assert.Null(x.Add(null));

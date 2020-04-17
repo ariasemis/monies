@@ -10,14 +10,14 @@ namespace Monies.Tests
     [MoneyProperties(QuietOnSuccess = true)]
     public class MoneyMultiplicationTests
     {
-        [Property(Skip = "cannot compare decimals without rounding")]
+        [Property]
         public void Multiplying_3_values_in_any_order_returns_the_same_result(Money<string> x, short y, short z)
         {
             Assert.Equal(x * y * z, x * (y * z));
             Assert.Equal(x.Multiply(y).Multiply(z), x.Multiply(y * z));
         }
 
-        [Property(Skip = "cannot compare decimals without rounding")]
+        [Property]
         public void Multiplying_the_sum_of_2_monies_is_the_same_as_multiplying_each_one_and_then_adding_the_result(decimal x, SameCurrency<string> monies)
         {
             var (y, z) = monies;
@@ -69,7 +69,7 @@ namespace Monies.Tests
             Assert.NotEqual(y > z, y.Multiply(x_) > z.Multiply(x_));
         }
 
-        [Property(Skip = "cannot compare decimals without rounding")]
+        [Property]
         public void Multiplying_x_times_y_is_the_sum_of_y_copies_of_x(Money<string> x, PositiveInt y)
         {
             var y_ = (int)y;

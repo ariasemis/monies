@@ -23,6 +23,18 @@ namespace Monies.Tests.Generators
             => Arb.From(MoneyGenerators.Generator<T>(), MoneyGenerators.Shrinker);
     }
 
+    public class NonZeroMoneyArbitrary
+    {
+        public static Arbitrary<Money<T>> Get<T>() where T : IEquatable<T>
+        {
+            var gen = from money in MoneyGenerators.Generator<T>()
+                      where money != null && money.Amount != 0
+                      select money;
+
+            return Arb.From(gen, MoneyGenerators.Shrinker);
+        }
+    }
+
     public class MoneyGenerators
     {
         public static Gen<Money<T>> Generator<T>() where T : IEquatable<T>
