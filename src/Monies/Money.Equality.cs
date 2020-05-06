@@ -22,7 +22,7 @@ namespace Monies
             => Equals(obj as Money<TCurrency>);
 
         public override int GetHashCode()
-            => (Amount.GetHashCode() * 397) ^ Currency.GetHashCode();
+            => (amount.GetHashCode() * 397) ^ Currency.GetHashCode();
 
         public bool Equals(Money<TCurrency> other)
         {
@@ -32,7 +32,7 @@ namespace Monies
             if (ReferenceEquals(this, other))
                 return true;
 
-            return Amount.Equals(other.Amount)
+            return amount.Equals(other.amount)
                 && Currency.Equals(other.Currency);
         }
     }

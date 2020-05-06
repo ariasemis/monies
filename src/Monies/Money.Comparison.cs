@@ -14,7 +14,7 @@ namespace Monies
 
             AssertSameCurrency(left, right);
 
-            return left.Amount < right.Amount;
+            return left.amount < right.amount;
         }
 
         public static bool operator >(Money<TCurrency> left, Money<TCurrency> right) => right < left;

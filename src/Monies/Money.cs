@@ -11,16 +11,18 @@ namespace Monies
 
     public sealed partial class Money<TCurrency>
     {
+        private readonly decimal amount;
+
         internal Money(decimal amount, TCurrency currency)
         {
             if (currency == null)
                 throw new ArgumentNullException(nameof(currency));
 
-            Amount = amount;
+            this.amount = amount;
             Currency = currency;
         }
 
-        public decimal Amount { get; }
+        public decimal Amount => amount;
 
         public TCurrency Currency { get; }
 

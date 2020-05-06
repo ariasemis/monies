@@ -5,7 +5,7 @@ namespace Monies
     public partial class Money<TCurrency>
     {
         public static Money<TCurrency> operator -(Money<TCurrency> money)
-            => money is null ? null : Money.Create(-money.Amount, money.Currency);
+            => money is null ? null : new Money<TCurrency>(-money.amount, money.Currency);
 
         public static Money<TCurrency> operator +(Money<TCurrency> left, Money<TCurrency> right)
         {
@@ -14,7 +14,7 @@ namespace Monies
 
             AssertSameCurrency(left, right);
 
-            return Money.Create(left.Amount + right.Amount, left.Currency);
+            return new Money<TCurrency>(left.amount + right.amount, left.Currency);
         }
 
         public static Money<TCurrency> operator -(Money<TCurrency> left, Money<TCurrency> right)
@@ -24,11 +24,11 @@ namespace Monies
 
             AssertSameCurrency(left, right);
 
-            return Money.Create(left.Amount - right.Amount, left.Currency);
+            return new Money<TCurrency>(left.amount - right.amount, left.Currency);
         }
 
         public static Money<TCurrency> operator *(Money<TCurrency> multiplier, decimal multiplicand)
-            => multiplier == null ? null : Money.Create(multiplier.Amount * multiplicand, multiplier.Currency);
+            => multiplier == null ? null : new Money<TCurrency>(multiplier.amount * multiplicand, multiplier.Currency);
 
         public static Money<TCurrency> operator /(Money<TCurrency> dividend, decimal divisor)
         {
@@ -38,7 +38,7 @@ namespace Monies
             if (divisor == 0)
                 throw new DivideByZeroException();
 
-            return Money.Create(dividend.Amount / divisor, dividend.Currency);
+            return new Money<TCurrency>(dividend.amount / divisor, dividend.Currency);
         }
 
         public Money<TCurrency> Negate() => -this;
