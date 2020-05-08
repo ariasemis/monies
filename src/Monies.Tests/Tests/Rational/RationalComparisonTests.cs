@@ -1,4 +1,5 @@
-﻿using Monies.Internal;
+﻿using FsCheck.Xunit;
+using Monies.Internal;
 using Xunit;
 
 namespace Monies.Tests
@@ -29,10 +30,9 @@ namespace Monies.Tests
             { new Rational(-2, 3), new Rational(-1, 3) },
         };
 
-        [Fact]
-        public void Rational_is_equal_to_itself()
+        [Property]
+        public void Rational_is_equal_to_itself(Rational x)
         {
-            var x = new Rational(1, 2);
             var y = x;
 
             Assert.True(Equals(x, y));
@@ -80,14 +80,59 @@ namespace Monies.Tests
             Assert.False(x.Equals(y));
         }
 
-        [Theory]
-        [MemberData(nameof(SameValues))]
-        [MemberData(nameof(DifferentValues))]
+        [Property]
+        public void If_x_equals_y_then_y_equals_x(Rational x, Rational y)
+        {
+            Assert.True(x.Equals(y) == y.Equals(x));
+            Assert.True(x.Equals((object)y) == y.Equals((object)x));
+            Assert.True((x == y) == (y == x));
+            Assert.True((x != y) == (y != x));
+        }
+
+        [Property]
+        public void If_x_equals_y_and_y_equals_z_then_x_equals_z(Rational x, Rational y, Rational z)
+        {
+            if (x.Equals(y) && y.Equals(z))
+            {
+                Assert.True(x.Equals(z));
+                Assert.True(x.Equals((object)z));
+                Assert.True(x == z);
+                Assert.False(x != z);
+                Assert.Equal(0, x.CompareTo(z));
+                Assert.True(x <= z);
+                Assert.True(x >= z);
+            }
+        }
+
+        [Property]
         public void At_least_one_rational_must_be_lt_or_eq_the_other(Rational x, Rational y)
         {
             Assert.True(x.CompareTo(y) <= 0 || y.CompareTo(x) <= 0);
             Assert.True(x <= y || y <= x);
             Assert.True(x >= y || y >= x);
+        }
+
+        [Property]
+        public void If_both_are_lte_then_they_are_equal(Rational x, Rational y)
+        {
+            if (x <= y && y <= x)
+            {
+                Assert.True(x.Equals(y));
+                Assert.True(x.Equals((object)y));
+                Assert.True(x == y);
+                Assert.False(x != y);
+                Assert.Equal(0, x.CompareTo(y));
+            }
+        }
+
+        [Property]
+        public void If_x_lte_y_and_y_lte_z_then_x_lte_z(Rational x, Rational y, Rational z)
+        {
+            if (x <= y && y <= z)
+            {
+                Assert.True(x <= z);
+                Assert.True(x.CompareTo(z) <= 0);
+            }
         }
 
         [Theory]
