@@ -6,8 +6,8 @@ namespace Monies.Internal
     {
         public int CompareTo(Rational other)
         {
-            var first = numerator * other.denominator;
-            var second = other.numerator * denominator;
+            var first = Numerator * other.Denominator;
+            var second = other.Numerator * Denominator;
 
             return first.CompareTo(second);
         }

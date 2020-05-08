@@ -1,17 +1,23 @@
-﻿namespace Monies.Internal
+﻿using System;
+
+namespace Monies.Internal
 {
     public partial struct Rational
     {
-        private readonly long numerator, denominator;
-
         public Rational(long numerator, long denominator)
         {
-            this.numerator = numerator;
-            this.denominator = denominator;
+            Numerator = denominator < 0 ? -numerator : numerator;
+            Denominator = denominator < 0 ? -denominator : denominator;
         }
 
+        public long Numerator { get; }
+
+        public long Denominator { get; }
+
+        public int Sign => Math.Sign(Numerator);
+
         public override string ToString()
-            => numerator == 0 || denominator == 1 ?
-            $"{numerator}" : $"{numerator}/{denominator}";
+            => Numerator == 0 || Denominator == 1 ?
+            $"{Numerator}" : $"{Numerator}/{Denominator}";
     }
 }

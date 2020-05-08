@@ -12,7 +12,7 @@ namespace Monies.Internal
 
         public override int GetHashCode()
         {
-            var d = (decimal)numerator / denominator;
+            var d = (decimal)Numerator / Denominator;
             return d.GetHashCode();
         }
 
