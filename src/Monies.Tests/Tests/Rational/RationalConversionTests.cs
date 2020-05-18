@@ -11,8 +11,10 @@ namespace Monies.Tests
         [Property]
         public void Converting_from_decimal_and_back_again_returns_the_original_value(decimal x)
         {
-            Assert.Equal(x, (decimal)(Rational)x);
-            Assert.Equal(x, Rational.ToDecimal(Rational.FromDecimal(x)));
+            var accuracy = 1E-28m;
+
+            Assert.True(Math.Abs(x - (decimal)(Rational)x) <= accuracy);
+            Assert.True(Math.Abs(x - Rational.ToDecimal(Rational.FromDecimal(x))) <= accuracy);
         }
 
         [Property(Arbitrary = new[] { typeof(NonZeroDenominatorArbitrary) })]

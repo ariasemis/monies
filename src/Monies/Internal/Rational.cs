@@ -4,15 +4,22 @@ namespace Monies.Internal
 {
     public partial struct Rational
     {
-        public Rational(long numerator, long denominator)
+        public Rational(long numerator, long denominator) : this((decimal)numerator, denominator)
         {
+        }
+
+        private Rational(decimal numerator, decimal denominator)
+        {
+            if (numerator % 1 != 0) throw new ArgumentException("must be a whole number", nameof(numerator));
+            if (denominator % 1 != 0) throw new ArgumentException("must be a whole number", nameof(denominator));
+
             Numerator = denominator < 0 ? -numerator : numerator;
             Denominator = denominator < 0 ? -denominator : denominator;
         }
 
-        public long Numerator { get; }
+        public decimal Numerator { get; }
 
-        public long Denominator { get; }
+        public decimal Denominator { get; }
 
         public int Sign => Math.Sign(Numerator);
 
