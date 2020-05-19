@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monies.Internal;
+using System;
 
 namespace Monies
 {
@@ -6,14 +7,14 @@ namespace Monies
     {
         public static Money<TCurrency> Create<TCurrency>(decimal amount, TCurrency currency)
             where TCurrency : IEquatable<TCurrency>
-            => new Money<TCurrency>(amount, currency);
+            => new Money<TCurrency>((Rational)amount, currency);
     }
 
     public sealed partial class Money<TCurrency>
     {
-        private readonly decimal amount;
+        private readonly Rational amount;
 
-        internal Money(decimal amount, TCurrency currency)
+        internal Money(Rational amount, TCurrency currency)
         {
             if (currency == null)
                 throw new ArgumentNullException(nameof(currency));
@@ -22,7 +23,7 @@ namespace Monies
             Currency = currency;
         }
 
-        public decimal Amount => amount;
+        public decimal Amount => (decimal)amount;
 
         public TCurrency Currency { get; }
 

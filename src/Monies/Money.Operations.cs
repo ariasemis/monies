@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monies.Internal;
+using System;
 
 namespace Monies
 {
@@ -28,7 +29,7 @@ namespace Monies
         }
 
         public static Money<TCurrency> operator *(Money<TCurrency> multiplier, decimal multiplicand)
-            => multiplier == null ? null : new Money<TCurrency>(multiplier.amount * multiplicand, multiplier.Currency);
+            => multiplier == null ? null : new Money<TCurrency>(multiplier.amount * (Rational)multiplicand, multiplier.Currency);
 
         public static Money<TCurrency> operator /(Money<TCurrency> dividend, decimal divisor)
         {
@@ -38,7 +39,7 @@ namespace Monies
             if (divisor == 0)
                 throw new DivideByZeroException();
 
-            return new Money<TCurrency>(dividend.amount / divisor, dividend.Currency);
+            return new Money<TCurrency>(dividend.amount / (Rational)divisor, dividend.Currency);
         }
 
         public Money<TCurrency> Negate() => -this;

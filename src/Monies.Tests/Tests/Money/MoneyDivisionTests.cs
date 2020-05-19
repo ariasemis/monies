@@ -41,7 +41,7 @@ namespace Monies.Tests
             Assert.Throws<DivideByZeroException>(() => x.Divide(0));
         }
 
-        [Property(Skip = "cannot compare values with repeating decimals")]
+        [Property]
         public void Dividing_the_sum_of_2_monies_is_the_same_as_dividing_each_and_then_adding_the_result(NonZeroInt x, SameCurrency<string> monies)
         {
             var (y, z) = monies;
@@ -51,7 +51,7 @@ namespace Monies.Tests
             Assert.Equal(y.Add(z).Divide(x_), y.Divide(x_).Add(z.Divide(x_)));
         }
 
-        [Property(Skip = "cannot compare values with repeating decimals")]
+        [Property]
         public void Dividing_3_values_is_the_same_as_dividing_x_by_the_product_of_y_and_z(Money<string> x, NonZeroInt y, NonZeroInt z)
         {
             int y_ = (int)y, z_ = (int)z;
