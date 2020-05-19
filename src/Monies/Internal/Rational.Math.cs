@@ -9,23 +9,70 @@ namespace Monies.Internal
 
         public static Rational operator +(Rational left, Rational right)
         {
-            return new Rational(
-                left.Numerator * right.Denominator + right.Numerator * left.Denominator,
-                left.Denominator * right.Denominator);
+            if (left.Denominator == 0)
+            {
+                if (right.Denominator == 0 && left.Sign != right.Sign)
+                    return NaN;
+
+                return left;
+            }
+            if (right.Denominator == 0)
+            {
+                return right;
+            }
+
+            var denominator = MathUtils.LeastCommonMultiple(left.Denominator, right.Denominator);
+
+            var lfactor = denominator / left.Denominator;
+            var rfactor = denominator / right.Denominator;
+
+            return new Rational(left.Numerator * lfactor + right.Numerator * rfactor, denominator);
         }
 
         public static Rational operator -(Rational left, Rational right)
         {
-            return new Rational(
-                left.Numerator * right.Denominator - right.Numerator * left.Denominator,
-                left.Denominator * right.Denominator);
+            if (left.Denominator == 0)
+            {
+                if (right.Denominator == 0 && left.Sign != -right.Sign)
+                    return NaN;
+
+                return left;
+            }
+            if (right.Denominator == 0)
+            {
+                return -right;
+            }
+
+            var denominator = MathUtils.LeastCommonMultiple(left.Denominator, right.Denominator);
+
+            var lfactor = denominator / left.Denominator;
+            var rfactor = denominator / right.Denominator;
+
+            return new Rational(left.Numerator * lfactor - right.Numerator * rfactor, denominator);
         }
 
         public static Rational operator *(Rational left, Rational right)
         {
-            return new Rational(
-                left.Numerator * right.Numerator,
-                left.Denominator * right.Denominator);
+            var ln = left.Numerator;
+            var ld = left.Denominator;
+            var rn = right.Numerator;
+            var rd = right.Denominator;
+
+            var gcd = MathUtils.GreatestCommonDivisor(ln, rd);
+            if (gcd != 0 && gcd != 1)
+            {
+                ln /= gcd;
+                rd /= gcd;
+            }
+
+            gcd = MathUtils.GreatestCommonDivisor(rn, ld);
+            if (gcd != 0 && gcd != 1)
+            {
+                rn /= gcd;
+                ld /= gcd;
+            }
+
+            return new Rational(ln * rn, ld * rd);
         }
 
         public static Rational operator /(Rational left, Rational right)
@@ -33,9 +80,26 @@ namespace Monies.Internal
             if (right.Equals(Zero))
                 throw new DivideByZeroException();
 
-            return new Rational(
-                left.Numerator * right.Denominator,
-                right.Numerator * left.Denominator);
+            var ln = left.Numerator;
+            var ld = left.Denominator;
+            var rn = right.Numerator;
+            var rd = right.Denominator;
+
+            var gcd = MathUtils.GreatestCommonDivisor(ln, rn);
+            if (gcd != 0 && gcd != 1)
+            {
+                ln /= gcd;
+                rn /= gcd;
+            }
+
+            gcd = MathUtils.GreatestCommonDivisor(ld, rd);
+            if (gcd != 0 && gcd != 1)
+            {
+                ld /= gcd;
+                rd /= gcd;
+            }
+
+            return new Rational(ln * rd, rn * ld);
         }
 
         public static Rational Negate(Rational item) => -item;

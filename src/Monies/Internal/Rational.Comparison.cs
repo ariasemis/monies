@@ -17,10 +17,9 @@ namespace Monies.Internal
             if (IsNegativeInfinity || other.IsPositiveInfinity)
                 return -1;
 
-            var first = Numerator * other.Denominator;
-            var second = other.Numerator * Denominator;
+            var diff = this - other;
 
-            return first.CompareTo(second);
+            return diff.Sign;
         }
 
         public static bool operator <(Rational left, Rational right)

@@ -12,11 +12,16 @@ namespace Monies.Tests
         {
             var actual = new Rational(numerator, denominator);
 
-            var expectedSign = denominator == 0 ? Math.Sign(numerator) : Math.Sign(numerator * denominator);
-            
-            Assert.Equal(expectedSign, actual.Sign);
-            Assert.Equal(Math.Abs(numerator), Math.Abs(actual.Numerator));
-            Assert.Equal(Math.Abs(denominator), Math.Abs(actual.Denominator));
+            if (denominator == 0)
+            {
+                Assert.Equal(Math.Sign(numerator), actual.Numerator);
+                Assert.Equal(0, actual.Denominator);
+            }
+            else
+            {
+                Assert.Equal(Math.Sign(numerator * denominator), actual.Sign);
+                Assert.Equal(Math.Abs(numerator * actual.Denominator), Math.Abs(actual.Numerator * denominator));
+            }
         }
     }
 }
