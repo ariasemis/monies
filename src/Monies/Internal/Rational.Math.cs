@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Numerics;
 
 namespace Monies.Internal
 {
     public partial struct Rational
     {
+        private static BigInteger MaxDecimal = new BigInteger(decimal.MaxValue);
+
+        private delegate (BigInteger n, BigInteger d) SafeCalculation((BigInteger n, BigInteger d) left, (BigInteger n, BigInteger d) right);
+
         public static Rational operator -(Rational rational)
             => new Rational(-rational.Numerator, rational.Denominator);
 
@@ -21,12 +26,7 @@ namespace Monies.Internal
                 return right;
             }
 
-            var denominator = MathUtils.LeastCommonMultiple(left.Denominator, right.Denominator);
-
-            var lfactor = denominator / left.Denominator;
-            var rfactor = denominator / right.Denominator;
-
-            return new Rational(left.Numerator * lfactor + right.Numerator * rfactor, denominator);
+            return Perform(left, right, (l, r) => (l.n * r.d + r.n * l.d, l.d * r.d));
         }
 
         public static Rational operator -(Rational left, Rational right)
@@ -43,63 +43,18 @@ namespace Monies.Internal
                 return -right;
             }
 
-            var denominator = MathUtils.LeastCommonMultiple(left.Denominator, right.Denominator);
-
-            var lfactor = denominator / left.Denominator;
-            var rfactor = denominator / right.Denominator;
-
-            return new Rational(left.Numerator * lfactor - right.Numerator * rfactor, denominator);
+            return Perform(left, right, (l, r) => (l.n * r.d - r.n * l.d, l.d * r.d));
         }
 
         public static Rational operator *(Rational left, Rational right)
-        {
-            var ln = left.Numerator;
-            var ld = left.Denominator;
-            var rn = right.Numerator;
-            var rd = right.Denominator;
-
-            var gcd = MathUtils.GreatestCommonDivisor(ln, rd);
-            if (gcd != 0 && gcd != 1)
-            {
-                ln /= gcd;
-                rd /= gcd;
-            }
-
-            gcd = MathUtils.GreatestCommonDivisor(rn, ld);
-            if (gcd != 0 && gcd != 1)
-            {
-                rn /= gcd;
-                ld /= gcd;
-            }
-
-            return new Rational(ln * rn, ld * rd);
-        }
+            => Perform(left, right, (l, r) => (l.n * r.n, l.d * r.d));
 
         public static Rational operator /(Rational left, Rational right)
         {
             if (right.Equals(Zero))
                 throw new DivideByZeroException();
 
-            var ln = left.Numerator;
-            var ld = left.Denominator;
-            var rn = right.Numerator;
-            var rd = right.Denominator;
-
-            var gcd = MathUtils.GreatestCommonDivisor(ln, rn);
-            if (gcd != 0 && gcd != 1)
-            {
-                ln /= gcd;
-                rn /= gcd;
-            }
-
-            gcd = MathUtils.GreatestCommonDivisor(ld, rd);
-            if (gcd != 0 && gcd != 1)
-            {
-                ld /= gcd;
-                rd /= gcd;
-            }
-
-            return new Rational(ln * rd, rn * ld);
+            return Perform(left, right, (l, r) => (l.n * r.d, r.n * l.d));
         }
 
         public static Rational Negate(Rational item) => -item;
@@ -113,5 +68,28 @@ namespace Monies.Internal
         public static Rational Divide(Rational left, Rational right) => left / right;
 
         public Rational Invert() => new Rational(Denominator, Numerator);
+
+        private static Rational Perform(Rational left, Rational right, SafeCalculation op)
+        {
+            var x = (new BigInteger(left.Numerator), new BigInteger(left.Denominator));
+            var y = (new BigInteger(right.Numerator), new BigInteger(right.Denominator));
+
+            var (n, d) = op(x, y);
+
+            var gcd = BigInteger.GreatestCommonDivisor(n, d);
+            if (gcd != BigInteger.Zero && gcd != BigInteger.One)
+            {
+                n /= gcd;
+                d /= gcd;
+            }
+
+            while (BigInteger.Abs(n) > MaxDecimal && d > 1 && d % 10 == 0)
+            {
+                n /= 10;
+                d /= 10;
+            }
+
+            return new Rational((decimal)n, (decimal)d);
+        }
     }
 }
