@@ -27,9 +27,6 @@ namespace Monies
 
         public TCurrency Currency { get; }
 
-        public override string ToString()
-            => $"{Amount} ({Currency})";
-
         private static void AssertSameCurrency(Money<TCurrency> left, Money<TCurrency> right)
         {
             if (!left.Currency.Equals(right.Currency))
