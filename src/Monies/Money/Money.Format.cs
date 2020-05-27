@@ -19,19 +19,14 @@ namespace Monies
             if (string.IsNullOrEmpty(format) || format.Equals("G", StringComparison.InvariantCultureIgnoreCase))
                 format = "C";
 
-            NumberFormatInfo numberFormatInfo = null;
-
-            if (formatProvider != null)
-                numberFormatInfo = (NumberFormatInfo)formatProvider.GetFormat(typeof(NumberFormatInfo));
-
-            if (numberFormatInfo == null)
-                numberFormatInfo = NumberFormatInfo.CurrentInfo;
-
-            numberFormatInfo = (NumberFormatInfo)numberFormatInfo.Clone();
-            numberFormatInfo.CurrencySymbol = Currency.ToString();
-
             if (!format.StartsWith("C", StringComparison.InvariantCultureIgnoreCase))
                 throw new FormatException($"The '{format}' format string is not supported.");
+
+            var numberFormatInfo = NumberFormatInfo.GetInstance(formatProvider);
+            numberFormatInfo = (NumberFormatInfo)numberFormatInfo.Clone();
+
+            numberFormatInfo.CurrencySymbol = (Currency is IFormattable currencyFormat) ?
+                currencyFormat.ToString("G", formatProvider) : Currency.ToString();
 
             return Amount.ToString(format, numberFormatInfo);
         }

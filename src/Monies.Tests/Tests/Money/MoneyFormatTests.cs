@@ -57,6 +57,13 @@ namespace Monies.Tests
             Assert.Equal(expected, money.ToString(null, provider));
         }
 
+        [Theory]
+        [MemberData(nameof(FormatCurrencyData))]
+        public void Converting_to_string_uses_currency_formatting(Money<CurrencyISO> money, IFormatProvider provider, string expected)
+        {
+            Assert.Equal(expected, money.ToString(null, provider));
+        }
+
         public static TheoryData<Money<string>, string, string> FormatStringData
             => new TheoryData<Money<string>, string, string>
             {
@@ -76,5 +83,34 @@ namespace Monies.Tests
                 { Money.Create(1043.17m, "¤"), CultureInfo.InvariantCulture, "¤1,043.17" },
                 { Money.Create(1043.17m, "USD"), CultureInfo.CreateSpecificCulture("en-US"), "USD1,043.17" },
             };
+
+        public static TheoryData<Money<CurrencyISO>, IFormatProvider, string> FormatCurrencyData
+            => new TheoryData<Money<CurrencyISO>, IFormatProvider, string>
+            {
+                { Money.Create(1043.17m, CurrencyISO.Instance), CultureInfo.CreateSpecificCulture("en-US"), "USD1,043.17" },
+                { Money.Create(1043.17m, CurrencyISO.Instance), CultureInfo.CreateSpecificCulture("fr-FR"), "1 043,17 EUR" },
+                { Money.Create(1043.17m, CurrencyISO.Instance), CultureInfo.CreateSpecificCulture("es-AR"), "ARS 1.043,17" },
+            };
+
+        public class CurrencyISO : IFormattable, IEquatable<CurrencyISO>
+        {
+            private CurrencyISO() { }
+
+            public static CurrencyISO Instance = new CurrencyISO();
+
+            public bool Equals(CurrencyISO other)
+                => true;
+
+            public string ToString(string format, IFormatProvider formatProvider)
+            {
+                var ci = formatProvider as CultureInfo ?? CultureInfo.CurrentCulture;
+                var ri = new RegionInfo(ci.Name);
+
+                return ri.ISOCurrencySymbol;
+            }
+
+            public override string ToString()
+                => ToString(null, null);
+        }
     }
 }
