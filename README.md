@@ -1,6 +1,7 @@
 # Monies
 
 ![CI](https://github.com/ariasemis/monies/workflows/CI/badge.svg)
+[![License](https://img.shields.io/github/license/ariasemis/monies?label=License)](https://opensource.org/licenses/MPL-2.0)
 
 Yet another money class written in C#
 
