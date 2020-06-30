@@ -50,9 +50,9 @@ namespace Monies.Tests.Generators
     {
         public static Arbitrary<SameCurrency<T>> Get<T>() where T : IEquatable<T>
         {
-            var gen = from amount1 in Arb.Generate<decimal>()
-                      from amount2 in Arb.Generate<decimal>()
-                      from amount3 in Arb.Generate<decimal>()
+            var gen = from amount1 in AmountGenerators.All()
+                      from amount2 in AmountGenerators.All()
+                      from amount3 in AmountGenerators.All()
                       from currency in Arb.Generate<T>()
                       where currency != null
                       select new SameCurrency<T>(
