@@ -47,14 +47,26 @@ namespace Monies.Tests.Generators
             if (money == null)
                 yield break;
 
-            foreach (var amount in Arb.Shrink(money.Amount))
-                yield return Money.Create(amount, money.Currency);
+            var amount = money.Amount;
+            var currency = money.Currency;
 
-            foreach (var currency in Arb.Shrink(money.Currency))
+            using (var ds = Arb.Shrink(money.Amount).GetEnumerator())
+            using (var ss = Arb.Shrink(money.Currency).GetEnumerator())
             {
-                if (currency != null)
+                while (ds.MoveNext())
                 {
-                    yield return Money.Create(money.Amount, currency);
+                    amount = ds.Current;
+
+                    if (ss.MoveNext())
+                    {
+                        currency = ss.Current;
+                    }
+
+                    yield return Money.Create(amount, currency);
+                }
+                while (ss.MoveNext())
+                {
+                    yield return Money.Create(amount, ss.Current);
                 }
             }
         }
