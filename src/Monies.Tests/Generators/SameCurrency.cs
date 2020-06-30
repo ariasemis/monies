@@ -1,5 +1,6 @@
 ﻿using FsCheck;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Monies.Tests.Generators
@@ -60,7 +61,28 @@ namespace Monies.Tests.Generators
                           Money.Create(amount2, currency),
                           Money.Create(amount3, currency));
 
-            return gen.ToArbitrary();
+            return Arb.From(gen, Shrinker);
+        }
+
+        private static IEnumerable<SameCurrency<T>> Shrinker<T>(SameCurrency<T> x) where T : IEquatable<T>
+        {
+            if (x == null)
+                yield break;
+
+            using (var first = MoneyGenerators.Shrinker(x.First).GetEnumerator())
+            using (var second = MoneyGenerators.Shrinker(x.Second).GetEnumerator())
+            using (var third = MoneyGenerators.Shrinker(x.Third).GetEnumerator())
+            {
+                while (first.MoveNext()
+                    && second.MoveNext()
+                    && third.MoveNext())
+                {
+                    yield return new SameCurrency<T>(
+                        first.Current,
+                        second.Current,
+                        third.Current);
+                }
+            }
         }
     }
 
