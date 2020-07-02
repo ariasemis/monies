@@ -5,12 +5,12 @@ namespace Monies.Internal
 {
     public partial struct Rational
     {
-        private static BigInteger MaxDecimal = new BigInteger(decimal.MaxValue);
+        private static readonly BigInteger MaxDecimal = new(decimal.MaxValue);
 
         private delegate (BigInteger n, BigInteger d) SafeCalculation((BigInteger n, BigInteger d) left, (BigInteger n, BigInteger d) right);
 
         public static Rational operator -(Rational rational)
-            => new Rational(-rational.Numerator, rational.Denominator);
+            => new(-rational.Numerator, rational.Denominator);
 
         public static Rational operator +(Rational left, Rational right)
         {
@@ -67,7 +67,7 @@ namespace Monies.Internal
 
         public static Rational Divide(Rational left, Rational right) => left / right;
 
-        public Rational Invert() => new Rational(Denominator, Numerator);
+        public readonly Rational Invert() => new(Denominator, Numerator);
 
         private static Rational Perform(Rational left, Rational right, SafeCalculation op)
         {

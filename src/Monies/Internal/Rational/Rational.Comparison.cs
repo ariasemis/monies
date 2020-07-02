@@ -4,7 +4,7 @@ namespace Monies.Internal
 {
     public partial struct Rational : IComparable<Rational>
     {
-        public int CompareTo(Rational other)
+        public readonly int CompareTo(Rational other)
         {
             var sign = Sign.CompareTo(other.Sign);
             if (sign != 0)

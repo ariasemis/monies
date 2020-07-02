@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Monies
 {
-    public sealed partial class Money<TCurrency> : IFormattable
+    public sealed partial class Dense<TCurrency> : IFormattable
     {
         public override string ToString()
             => ToString("G", CultureInfo.CurrentCulture);

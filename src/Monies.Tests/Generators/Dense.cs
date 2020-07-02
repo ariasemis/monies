@@ -5,44 +5,44 @@ using System.Linq;
 
 namespace Monies.Tests.Generators
 {
-    public class MoneyArbitrary
+    public class DenseArbitrary
     {
-        public static Arbitrary<Money<T>> Get<T>() where T : IEquatable<T>
+        public static Arbitrary<Dense<T>> Get<T>() where T : IEquatable<T>
         {
-            var gen = from money in MoneyGenerators.Generator<T>()
+            var gen = from money in DenseGenerators.Generator<T>()
                       where money != null
                       select money;
 
-            return Arb.From(gen, MoneyGenerators.Shrinker);
+            return Arb.From(gen, DenseGenerators.Shrinker);
         }
     }
 
-    public class NullMoneyArbitrary
+    public class NullDenseArbitrary
     {
-        public static Arbitrary<Money<T>> Get<T>() where T : IEquatable<T>
-            => Arb.From(MoneyGenerators.Generator<T>(), MoneyGenerators.Shrinker);
+        public static Arbitrary<Dense<T>> Get<T>() where T : IEquatable<T>
+            => Arb.From(DenseGenerators.Generator<T>(), DenseGenerators.Shrinker);
     }
 
-    public class NonZeroMoneyArbitrary
+    public class NonZeroDenseArbitrary
     {
-        public static Arbitrary<Money<T>> Get<T>() where T : IEquatable<T>
+        public static Arbitrary<Dense<T>> Get<T>() where T : IEquatable<T>
         {
-            var gen = from money in MoneyGenerators.Generator<T>()
+            var gen = from money in DenseGenerators.Generator<T>()
                       where money != null && money.Amount != 0
                       select money;
 
-            return Arb.From(gen, MoneyGenerators.Shrinker);
+            return Arb.From(gen, DenseGenerators.Shrinker);
         }
     }
 
-    public class MoneyGenerators
+    public class DenseGenerators
     {
-        public static Gen<Money<T>> Generator<T>() where T : IEquatable<T>
+        public static Gen<Dense<T>> Generator<T>() where T : IEquatable<T>
             => from amount in AmountGenerators.All()
                from currency in Arb.Generate<T>()
-               select currency == null ? null : Money.Create(amount, currency);
+               select currency == null ? null : Money.Dense(amount, currency);
 
-        public static IEnumerable<Money<T>> Shrinker<T>(Money<T> money) where T : IEquatable<T>
+        public static IEnumerable<Dense<T>> Shrinker<T>(Dense<T> money) where T : IEquatable<T>
         {
             if (money == null)
                 yield break;
@@ -62,11 +62,11 @@ namespace Monies.Tests.Generators
                     currency = ss.Current;
                 }
 
-                yield return Money.Create(amount, currency);
+                yield return Money.Dense(amount, currency);
             }
             while (ss.MoveNext())
             {
-                yield return Money.Create(amount, ss.Current);
+                yield return Money.Dense(amount, ss.Current);
             }
         }
     }

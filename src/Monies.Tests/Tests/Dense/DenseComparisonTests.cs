@@ -8,10 +8,10 @@ using Xunit;
 namespace Monies.Tests
 {
     [MoneyProperties(QuietOnSuccess = true)]
-    public abstract class MoneyComparisonTests<T> where T : IEquatable<T>
+    public abstract class DenseComparisonTests<T> where T : IEquatable<T>
     {
-        [Property(Arbitrary = new[] { typeof(NullMoneyArbitrary) })]
-        public void Money_is_equal_to_itself(Money<T> x)
+        [Property(Arbitrary = new[] { typeof(NullDenseArbitrary) })]
+        public void Money_is_equal_to_itself(Dense<T> x)
         {
             var y = x;
 
@@ -31,7 +31,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void If_x_equals_y_then_y_equals_x(Money<T> x, Money<T> y)
+        public void If_x_equals_y_then_y_equals_x(Dense<T> x, Dense<T> y)
         {
             Assert.True(x.Equals(y) == y.Equals(x));
             Assert.True(x.Equals((object)y) == y.Equals((object)x));
@@ -40,7 +40,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void If_x_equals_y_and_y_equals_z_then_x_equals_z(Money<T> x, Money<T> y, Money<T> z)
+        public void If_x_equals_y_and_y_equals_z_then_x_equals_z(Dense<T> x, Dense<T> y, Dense<T> z)
         {
             if (x.Equals(y) && y.Equals(z))
             {
@@ -56,9 +56,9 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Monies_with_same_amount_and_same_currency_are_equal(Money<T> x)
+        public void Monies_with_same_amount_and_same_currency_are_equal(Dense<T> x)
         {
-            var y = Money.Create(x.Amount, x.Currency);
+            var y = Money.Dense(x.Amount, x.Currency);
 
             Assert.True(x.Equals(y));
             Assert.True(x.Equals((object)y));
@@ -73,7 +73,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Money_is_not_equal_to_null(Money<T> x)
+        public void Money_is_not_equal_to_null(Dense<T> x)
         {
             Assert.False(x.Equals(null));
             Assert.False(x.Equals((object)null));
@@ -84,7 +84,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Money_is_not_equal_to_another_object(Money<T> x)
+        public void Money_is_not_equal_to_another_object(Dense<T> x)
         {
             var y = new { x.Amount, x.Currency };
 
@@ -92,7 +92,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void At_least_one_money_must_be_lt_or_eq_the_other(SameCurrency<T> monies)
+        public void At_least_one_money_must_be_lt_or_eq_the_other(SameCurrencyDense<T> monies)
         {
             var (x, y) = monies;
 
@@ -103,7 +103,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void If_both_are_lte_then_they_are_equal(SameCurrency<T> monies)
+        public void If_both_are_lte_then_they_are_equal(SameCurrencyDense<T> monies)
         {
             var (x, y) = monies;
 
@@ -119,7 +119,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void If_not_equal_then_x_to_y_is_opposite_than_y_to_x(SameCurrency<T> monies)
+        public void If_not_equal_then_x_to_y_is_opposite_than_y_to_x(SameCurrencyDense<T> monies)
         {
             var (x, y) = monies;
 
@@ -138,7 +138,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void If_x_lte_y_and_y_lte_z_then_x_lte_z(SameCurrency<T> monies)
+        public void If_x_lte_y_and_y_lte_z_then_x_lte_z(SameCurrencyDense<T> monies)
         {
             var (x, y, z) = monies;
 
@@ -151,7 +151,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Money_is_greater_than_null(Money<T> x)
+        public void Money_is_greater_than_null(Dense<T> x)
         {
             Assert.True(x.CompareTo(null) > 0);
             Assert.True(x.CompareTo((object)null) > 0);
@@ -162,7 +162,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Cannot_compare_money_with_another_object(Money<T> x)
+        public void Cannot_compare_money_with_another_object(Dense<T> x)
         {
             var y = new { x.Amount, x.Currency };
 
@@ -170,39 +170,39 @@ namespace Monies.Tests
         }
     }
 
-    public sealed class MoneyIntCurrencyComparisonTests : MoneyComparisonTests<int> { }
-    public sealed class MoneyGuidCurrencyComparisonTests : MoneyComparisonTests<Guid> { }
-    public sealed class MoneyFakeCurrencyComparisonTests : MoneyComparisonTests<FakeCurrency> { }
+    public sealed class DenseIntCurrencyComparisonTests : DenseComparisonTests<int> { }
+    public sealed class DenseGuidCurrencyComparisonTests : DenseComparisonTests<Guid> { }
+    public sealed class DenseFakeCurrencyComparisonTests : DenseComparisonTests<FakeCurrency> { }
 
-    public sealed class MoneyStringCurrencyComparisonTests : MoneyComparisonTests<string>
+    public sealed class DenseStringCurrencyComparisonTests : DenseComparisonTests<string>
     {
-        public static TheoryData<Money<string>, Money<string>> DifferentCurrencies => new TheoryData<Money<string>, Money<string>>
+        public static TheoryData<Dense<string>, Dense<string>> DifferentCurrencies => new()
         {
-            { Money.Create(100, "$"), Money.Create(100, "€") },
-            { Money.Create(40.2m, "USD"), Money.Create(40.2m, "EUR") },
-            { Money.Create(0, "840"), Money.Create(0, "978") },
-            { Money.Create(-1, ""), Money.Create(-1, "XXX") },
+            { Money.Dense(100, "$"), Money.Dense(100, "€") },
+            { Money.Dense(40.2m, "USD"), Money.Dense(40.2m, "EUR") },
+            { Money.Dense(0, "840"), Money.Dense(0, "978") },
+            { Money.Dense(-1, ""), Money.Dense(-1, "XXX") },
         };
 
-        public static TheoryData<Money<string>, Money<string>> GreaterAmount => new TheoryData<Money<string>, Money<string>>
+        public static TheoryData<Dense<string>, Dense<string>> GreaterAmount => new()
         {
-            { Money.Create(1m, "$"), Money.Create(0.99m, "$") },
-            { Money.Create(100, ""), Money.Create(-100, "") },
-            { Money.Create(0, "USD"), Money.Create(-1, "USD") },
-            { Money.Create(-40, "978"), Money.Create(-40.01m, "978") },
+            { Money.Dense(1m, "$"), Money.Dense(0.99m, "$") },
+            { Money.Dense(100, ""), Money.Dense(-100, "") },
+            { Money.Dense(0, "USD"), Money.Dense(-1, "USD") },
+            { Money.Dense(-40, "978"), Money.Dense(-40.01m, "978") },
         };
 
-        public static TheoryData<Money<string>, Money<string>> SmallerAmount => new TheoryData<Money<string>, Money<string>>
+        public static TheoryData<Dense<string>, Dense<string>> SmallerAmount => new()
         {
-            { Money.Create(0.00000033m, "XBT"), Money.Create(0.000000331m, "XBT") },
-            { Money.Create(100, ""), Money.Create(200, "") },
-            { Money.Create(-0.5m, "$"), Money.Create(0.5m, "$") },
-            { Money.Create(-10m, "840"), Money.Create(-9m, "840")  },
+            { Money.Dense(0.00000033m, "XBT"), Money.Dense(0.000000331m, "XBT") },
+            { Money.Dense(100, ""), Money.Dense(200, "") },
+            { Money.Dense(-0.5m, "$"), Money.Dense(0.5m, "$") },
+            { Money.Dense(-10m, "840"), Money.Dense(-9m, "840")  },
         };
 
         [Theory]
         [MemberData(nameof(DifferentCurrencies))]
-        public void Monies_with_same_amount_but_different_currency_are_not_equal(Money<string> x, Money<string> y)
+        public void Monies_with_same_amount_but_different_currency_are_not_equal(Dense<string> x, Dense<string> y)
         {
             Assert.False(x.Equals(y));
             Assert.False(x.Equals((object)y));
@@ -213,7 +213,7 @@ namespace Monies.Tests
         [Theory]
         [MemberData(nameof(GreaterAmount))]
         [MemberData(nameof(SmallerAmount))]
-        public void Monies_with_different_amount_but_same_currency_are_not_equal(Money<string> x, Money<string> y)
+        public void Monies_with_different_amount_but_same_currency_are_not_equal(Dense<string> x, Dense<string> y)
         {
             Assert.False(x.Equals(y));
             Assert.False(x.Equals((object)y));
@@ -225,7 +225,7 @@ namespace Monies.Tests
 
         [Theory]
         [MemberData(nameof(GreaterAmount))]
-        public void Money_is_greater_if_amount_is_greater(Money<string> x, Money<string> y)
+        public void Money_is_greater_if_amount_is_greater(Dense<string> x, Dense<string> y)
         {
             Assert.True(x.CompareTo(y) > 0);
             Assert.True(x.CompareTo((object)y) > 0);
@@ -237,7 +237,7 @@ namespace Monies.Tests
 
         [Theory]
         [MemberData(nameof(SmallerAmount))]
-        public void Money_is_smaller_if_amount_is_smaller(Money<string> x, Money<string> y)
+        public void Money_is_smaller_if_amount_is_smaller(Dense<string> x, Dense<string> y)
         {
             Assert.True(x.CompareTo(y) < 0);
             Assert.True(x.CompareTo((object)y) < 0);
@@ -249,7 +249,7 @@ namespace Monies.Tests
 
         [Theory]
         [MemberData(nameof(DifferentCurrencies))]
-        public void Cannot_compare_money_with_different_currencies<T>(Money<T> x, Money<T> y) where T : IEquatable<T>
+        public void Cannot_compare_money_with_different_currencies<T>(Dense<T> x, Dense<T> y) where T : IEquatable<T>
         {
             Assert.Throws<InvalidOperationException>(() => x.CompareTo(y));
             Assert.Throws<InvalidOperationException>(() => x.CompareTo((object)y));

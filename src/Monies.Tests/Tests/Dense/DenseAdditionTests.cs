@@ -7,10 +7,10 @@ using Xunit;
 namespace Monies.Tests
 {
     [MoneyProperties(QuietOnSuccess = true)]
-    public class MoneyAdditionTests
+    public class DenseAdditionTests
     {
         [Property]
-        public void Adding_x_to_y_is_the_same_as_adding_y_to_x(SameCurrency<string> monies)
+        public void Adding_x_to_y_is_the_same_as_adding_y_to_x(SameCurrencyDense<string> monies)
         {
             var (x, y) = monies;
 
@@ -19,7 +19,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Adding_3_monies_in_any_order_returns_the_same_result(SameCurrency<string> monies)
+        public void Adding_3_monies_in_any_order_returns_the_same_result(SameCurrencyDense<string> monies)
         {
             var (x, y, z) = monies;
 
@@ -28,9 +28,9 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Adding_zero_to_a_money_returns_same_money(Money<string> x)
+        public void Adding_zero_to_a_money_returns_same_money(Dense<string> x)
         {
-            var zero = Money.Create(0, x.Currency);
+            var zero = Money.Dense(0, x.Currency);
 
             Assert.Equal(x, x + zero);
             Assert.Equal(x, zero + x);
@@ -39,16 +39,16 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Adding_the_opposite_returns_zero_money(Money<string> x)
+        public void Adding_the_opposite_returns_zero_money(Dense<string> x)
         {
-            var zero = Money.Create(0, x.Currency);
+            var zero = Money.Dense(0, x.Currency);
 
             Assert.Equal(zero, x + (-x));
             Assert.Equal(zero, x.Add(x.Negate()));
         }
 
         [Property]
-        public void Adding_null_to_a_money_returns_null(Money<string> x)
+        public void Adding_null_to_a_money_returns_null(Dense<string> x)
         {
             Assert.Null(x.Add(null));
             Assert.Null(x + null);
@@ -61,8 +61,8 @@ namespace Monies.Tests
         [InlineData(-15, "", 13, "XXX")]
         public void Cannot_add_monies_with_different_currencies(decimal a1, string c1, decimal a2, string c2)
         {
-            var x = Money.Create(a1, c1);
-            var y = Money.Create(a2, c2);
+            var x = Money.Dense(a1, c1);
+            var y = Money.Dense(a2, c2);
 
             Assert.Throws<InvalidOperationException>(() => x + y);
             Assert.Throws<InvalidOperationException>(() => x.Add(y));
@@ -70,20 +70,20 @@ namespace Monies.Tests
 
         [Theory]
         [MemberData(nameof(TestData))]
-        public void Adding_x_to_y_returns_z(Money<string> x, Money<string> y, Money<string> z)
+        public void Adding_x_to_y_returns_z(Dense<string> x, Dense<string> y, Dense<string> z)
         {
             Assert.Equal(z, x + y);
             Assert.Equal(z, x.Add(y));
         }
 
-        public static TheoryData<Money<string>, Money<string>, Money<string>> TestData
-            => new TheoryData<Money<string>, Money<string>, Money<string>>
+        public static TheoryData<Dense<string>, Dense<string>, Dense<string>> TestData
+            => new()
             {
-                { Money.Create(101, "$"), Money.Create(99, "$"), Money.Create(200, "$") },
-                { Money.Create(0.05m, "USD"), Money.Create(0.025m, "USD"), Money.Create(0.075m, "USD") },
-                { Money.Create(1.999m, "EUR"), Money.Create(0.9m, "EUR"), Money.Create(2.899m, "EUR") },
-                { Money.Create(2, "XBT"), Money.Create(-1, "XBT"), Money.Create(1, "XBT") },
-                { Money.Create(-100.5m, "€"), Money.Create(-0.9m, "€"), Money.Create(-101.4m, "€") },
+                { Money.Dense(101, "$"), Money.Dense(99, "$"), Money.Dense(200, "$") },
+                { Money.Dense(0.05m, "USD"), Money.Dense(0.025m, "USD"), Money.Dense(0.075m, "USD") },
+                { Money.Dense(1.999m, "EUR"), Money.Dense(0.9m, "EUR"), Money.Dense(2.899m, "EUR") },
+                { Money.Dense(2, "XBT"), Money.Dense(-1, "XBT"), Money.Dense(1, "XBT") },
+                { Money.Dense(-100.5m, "€"), Money.Dense(-0.9m, "€"), Money.Dense(-101.4m, "€") },
             };
     }
 }

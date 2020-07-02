@@ -2,10 +2,10 @@
 
 namespace Monies
 {
-    public sealed partial class Money<TCurrency> : IEquatable<Money<TCurrency>>
+    public sealed partial class Dense<TCurrency> : IEquatable<Dense<TCurrency>>
         where TCurrency : IEquatable<TCurrency>
     {
-        public static bool operator ==(Money<TCurrency> left, Money<TCurrency> right)
+        public static bool operator ==(Dense<TCurrency> left, Dense<TCurrency> right)
         {
             if (left is null && right is null)
                 return true;
@@ -16,15 +16,15 @@ namespace Monies
             return left.Equals(right);
         }
 
-        public static bool operator !=(Money<TCurrency> left, Money<TCurrency> right) => !(left == right);
+        public static bool operator !=(Dense<TCurrency> left, Dense<TCurrency> right) => !(left == right);
 
         public override bool Equals(object? obj)
-            => Equals(obj as Money<TCurrency>);
+            => Equals(obj as Dense<TCurrency>);
 
         public override int GetHashCode()
             => (amount.GetHashCode() * 397) ^ Currency.GetHashCode();
 
-        public bool Equals(Money<TCurrency>? other)
+        public bool Equals(Dense<TCurrency>? other)
         {
             if (other is null)
                 return false;
