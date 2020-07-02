@@ -6,10 +6,10 @@ using Xunit;
 namespace Monies.Tests
 {
     [MoneyProperties(QuietOnSuccess = true)]
-    public class MoneyUnaryTests
+    public class DenseUnaryTests
     {
         [Property]
-        public void Negating_money_returns_money_with_negated_amount(Money<string> x)
+        public void Negating_money_returns_money_with_negated_amount(Dense<string> x)
         {
             var abs = Math.Abs(x.Amount);
 
@@ -25,7 +25,7 @@ namespace Monies.Tests
         [Fact]
         public void Negating_null_returns_null()
         {
-            Money<string> x = null;
+            Dense<string> x = null;
 
             Assert.Null(-x);
         }

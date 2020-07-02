@@ -7,10 +7,10 @@ using Xunit;
 namespace Monies.Tests
 {
     [MoneyProperties(QuietOnSuccess = true)]
-    public class MoneySubtractionTests
+    public class DenseSubtractionTests
     {
         [Property]
-        public void Substracting_x_to_y_is_opposite_of_substracting_y_to_x(SameCurrency<string> monies)
+        public void Substracting_x_to_y_is_opposite_of_substracting_y_to_x(SameCurrencyDense<string> monies)
         {
             var (x, y) = monies;
 
@@ -19,7 +19,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void For_any_x_and_y_there_must_be_2_monies_that_turns_x_into_y(SameCurrency<string> monies)
+        public void For_any_x_and_y_there_must_be_2_monies_that_turns_x_into_y(SameCurrencyDense<string> monies)
         {
             var (x, y) = monies;
 
@@ -33,7 +33,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Substracting_y_to_x_is_the_same_as_adding_opposite_of_y_to_x(SameCurrency<string> monies)
+        public void Substracting_y_to_x_is_the_same_as_adding_opposite_of_y_to_x(SameCurrencyDense<string> monies)
         {
             var (x, y) = monies;
 
@@ -42,7 +42,7 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void Substracting_null_money_returns_null(Money<string> x)
+        public void Substracting_null_money_returns_null(Dense<string> x)
         {
             Assert.Null(x.Subtract(null));
             Assert.Null(x - null);
@@ -55,8 +55,8 @@ namespace Monies.Tests
         [InlineData(-15, "", 13, "XXX")]
         public void Cannot_substract_monies_with_different_currencies(decimal a1, string c1, decimal a2, string c2)
         {
-            var x = Money.Create(a1, c1);
-            var y = Money.Create(a2, c2);
+            var x = Money.Dense(a1, c1);
+            var y = Money.Dense(a2, c2);
 
             Assert.Throws<InvalidOperationException>(() => x - y);
             Assert.Throws<InvalidOperationException>(() => x.Subtract(y));

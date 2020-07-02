@@ -3,19 +3,19 @@ using Xunit;
 
 namespace Monies.Tests
 {
-    public class MoneyCreationTests
+    public class DenseCreationTests
     {
         [Fact]
         public void Cannot_create_money_without_currency()
         {
-            Assert.Throws<ArgumentNullException>(() => Money.Create<string>(100, null));
+            Assert.Throws<ArgumentNullException>(() => Money.Dense<string>(100, null));
         }
 
         [Theory]
         [MemberData(nameof(ValidCases))]
         public void Created_money_has_expected_values(decimal amount, string currency)
         {
-            var actual = Money.Create(amount, currency);
+            var actual = Money.Dense(amount, currency);
 
             Assert.NotNull(actual);
             Assert.Equal(amount, actual.Amount);
