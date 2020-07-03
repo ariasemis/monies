@@ -8,5 +8,8 @@ namespace Monies
         public static Dense<TCurrency> Dense<TCurrency>(decimal amount, TCurrency currency)
             where TCurrency : IEquatable<TCurrency>
             => new((Rational)amount, currency);
+
+        public static Discrete<TCurrency, TUnit> Discrete<TCurrency, TUnit>(long amount, TCurrency currency, TUnit unit)
+            => new(amount, currency, unit);
     }
 }

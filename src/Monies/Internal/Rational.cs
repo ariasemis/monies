@@ -2,7 +2,7 @@
 
 namespace Monies.Internal
 {
-    public partial struct Rational
+    public readonly partial struct Rational
     {
         public Rational(long numerator, long denominator)
             : this((decimal)numerator, denominator)
