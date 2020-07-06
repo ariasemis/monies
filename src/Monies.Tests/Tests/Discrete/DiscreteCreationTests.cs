@@ -8,18 +8,24 @@ namespace Monies.Tests
         [Fact]
         public void Cannot_create_money_without_currency()
         {
-            Assert.Throws<ArgumentNullException>(() => Money.Discrete<string, string>(100, null, "euros"));
+            Assert.Throws<ArgumentNullException>(() => Money.Discrete(100, null, Money.Unit(1, "USD")));
         }
 
         [Fact]
         public void Cannot_create_money_without_unit()
         {
-            Assert.Throws<ArgumentNullException>(() => Money.Discrete<string, string>(100, "EUR", null));
+            Assert.Throws<ArgumentNullException>(() => Money.Discrete(100, "EUR", null));
+        }
+
+        [Fact]
+        public void Cannot_create_money_when_currency_mismatch()
+        {
+            Assert.Throws<ArgumentException>(() => Money.Discrete(100, "EUR", Money.Unit(1, "USD")));
         }
 
         [Theory]
         [MemberData(nameof(ValidCases))]
-        public void Created_money_has_expected_values(long amount, string currency, string unit)
+        public void Created_money_has_expected_values(long amount, string currency, Unit<string> unit)
         {
             var actual = Money.Discrete(amount, currency, unit);
 
@@ -29,13 +35,27 @@ namespace Monies.Tests
             Assert.Equal(unit, actual.Unit);
         }
 
-        public static TheoryData<long, string, string> ValidCases => new TheoryData<long, string, string>
+        [Theory]
+        [MemberData(nameof(ValidCases))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1026:Theory methods should use all of their parameters", Justification = "<Pending>")]
+        public void Created_money_with_default_unit_has_expected_values(long amount, string currency, Unit<string> _)
         {
-            { 100, "EUR", "euros" },
-            { long.MaxValue, "EUR", "cents" },
-            { 0, string.Empty, string.Empty },
-            { -100, "USD", "dollars" },
-            { long.MinValue, "ARS", "pesos" },
+            var unit = Money.Unit(1, currency);
+            var actual = Money.Discrete(amount, currency);
+
+            Assert.NotNull(actual);
+            Assert.Equal(amount, actual.Amount);
+            Assert.Equal(currency, actual.Currency);
+            Assert.Equal(unit.Scale, actual.Unit.Scale);
+        }
+
+        public static TheoryData<long, string, Unit<string>> ValidCases => new TheoryData<long, string, Unit<string>>
+        {
+            { 100, "EUR", Money.Unit(1, "EUR") },
+            { long.MaxValue, "EUR", Money.Unit(100, "EUR") },
+            { 0, string.Empty, Money.Unit(1, string.Empty) },
+            { -100, "USD", Money.Unit(1, "USD") },
+            { long.MinValue, "ARS", Money.Unit(1, "ARS") },
         };
     }
 }

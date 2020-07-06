@@ -2,7 +2,7 @@
 
 namespace Monies
 {
-    public sealed partial class Discrete<TCurrency, TUnit>
+    public sealed partial class Discrete<TCurrency>
     {
         // TODO: implement IFormattable
 
