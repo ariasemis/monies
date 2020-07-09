@@ -8,7 +8,6 @@ namespace Monies
         {
             if (currency == null) throw new ArgumentNullException(nameof(currency));
             if (unit == null) throw new ArgumentNullException(nameof(unit));
-            if (!unit.Currency.Equals(currency)) throw new ArgumentException("currency mismatch", nameof(unit));
 
             if (!unit.Currency.Equals(currency))
                 throw new ArgumentException($"Currency mismatch. Expected: {currency}; Actual: {unit.Currency}", nameof(unit));
