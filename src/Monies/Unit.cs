@@ -18,5 +18,8 @@ namespace Monies
         public short Scale { get; }
 
         public TCurrency Currency { get; }
+
+        public override string ToString()
+            => $"currency: {Currency}, scale: {Scale}";
     }
 }

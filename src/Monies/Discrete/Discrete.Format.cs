@@ -13,7 +13,9 @@ namespace Monies
 
             numberFormatInfo.CurrencySymbol = Currency.ToString();
 
-            return Amount.ToString("C", numberFormatInfo);
+            var normalized = (decimal)Amount / Unit.Scale;
+
+            return normalized.ToString("C", numberFormatInfo);
         }
     }
 }
