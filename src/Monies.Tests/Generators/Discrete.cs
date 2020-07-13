@@ -28,8 +28,8 @@ namespace Monies.Tests.Generators
         public static Gen<Discrete<T>> Generator<T>() where T : IEquatable<T>
             => from amount in Arb.Default.Int64().Generator
                from currency in Arb.Generate<T>()
-               from scale in UnitGenerator.Generator(currency)
-               select currency == null ? null : Money.Discrete(amount, currency, scale);
+               from unit in UnitGenerator.Generator(currency)
+               select currency == null ? null : Money.Discrete(amount, currency, unit);
 
         public static IEnumerable<Discrete<T>> Shrinker<T>(Discrete<T> money) where T : IEquatable<T>
         {
@@ -52,11 +52,13 @@ namespace Monies.Tests.Generators
                         currency = ss.Current;
                     }
 
-                    yield return Money.Discrete(amount, currency, unit);
+                    yield return Money.Discrete(amount, currency, Money.Unit(unit.Scale, currency));
                 }
                 while (ss.MoveNext())
                 {
-                    yield return Money.Discrete(amount, ss.Current, unit);
+                    currency = ss.Current;
+
+                    yield return Money.Discrete(amount, currency, Money.Unit(unit.Scale, currency));
                 }
             }
         }
