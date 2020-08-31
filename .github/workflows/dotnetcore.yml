@@ -10,13 +10,18 @@ jobs:
   build_and_test:
 
     runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        dotnet: ['2.1.x', '3.1.x']
 
+    name: dotnet ${{ matrix.dotnet }}
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
+    - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.101
+        dotnet-version: ${{ matrix.dotnet }}
     - name: Build
       run: dotnet build ./src/Monies.sln --configuration Release
     - name: Test
