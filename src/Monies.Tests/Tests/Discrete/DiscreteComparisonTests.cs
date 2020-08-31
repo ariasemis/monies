@@ -47,7 +47,6 @@ namespace Monies.Tests
             }
         }
 
-        // TODO: should monies with equivalent amounts in different scale also be equal ??
         [Property]
         public void Monies_with_same_amount_currency_and_unit_are_equal(Discrete<T> x)
         {
@@ -108,6 +107,21 @@ namespace Monies.Tests
             { Money.Discrete(-10, "840"), Money.Discrete(-9, "840")  },
         };
 
+        public static TheoryData<Discrete<string>, Discrete<string>> EquivalentAmount => new TheoryData<Discrete<string>, Discrete<string>>
+        {
+            { Money.Discrete(1, "XBT", Money.Unit(1, "XBT")), Money.Discrete(100, "XBT", Money.Unit(100, "XBT")) },
+            { Money.Discrete(200, "XBT", Money.Unit(4, "XBT")), Money.Discrete(400, "XBT", Money.Unit(8, "XBT")) },
+            { Money.Discrete(0, string.Empty, Money.Unit(2, string.Empty)), Money.Discrete(0, string.Empty, Money.Unit(3, string.Empty)) },
+            { Money.Discrete(-50, "$", Money.Unit(1, "$")), Money.Discrete(-5000, "$", Money.Unit(100, "$")) },
+        };
+
+        public static TheoryData<Discrete<string>, Discrete<string>> DifferentUnits => new TheoryData<Discrete<string>, Discrete<string>>
+        {
+            { Money.Discrete(100, "$", Money.Unit(1, "$")), Money.Discrete(100, "$", Money.Unit(100, "$")) },
+            { Money.Discrete(40, "USD", Money.Unit(2, "USD")), Money.Discrete(40, "USD", Money.Unit(3, "USD")) },
+            { Money.Discrete(-1, "", Money.Unit(1001, "")), Money.Discrete(-1, "", Money.Unit(1000, "")) },
+        };
+
         [Theory]
         [MemberData(nameof(DifferentCurrencies))]
         public void Monies_with_same_amount_but_different_currency_are_not_equal(Discrete<string> x, Discrete<string> y)
@@ -129,6 +143,25 @@ namespace Monies.Tests
             Assert.True(x != y);
         }
 
-        // TODO: monies with same amount and currency but different scale ??
+        [Theory]
+        [MemberData(nameof(EquivalentAmount))]
+        public void Monies_with_equivalent_amounts_and_same_currency_are_equal(Discrete<string> x, Discrete<string> y)
+        {
+            Assert.True(x.Equals(y));
+            Assert.True(x.Equals((object)y));
+            Assert.True(x == y);
+            Assert.False(x != y);
+        }
+
+        [Theory]
+        [MemberData(nameof(DifferentUnits))]
+        public void Monies_with_different_units_are_not_equal(Discrete<string> x, Discrete<string> y)
+        {
+            Assert.False(x.Equals(y));
+            Assert.False(x.Equals((object)y));
+            Assert.False(x == y);
+            Assert.True(x != y);
+        }
+
     }
 }

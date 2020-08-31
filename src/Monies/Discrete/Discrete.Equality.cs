@@ -44,9 +44,13 @@ namespace Monies
             if (ReferenceEquals(this, other))
                 return true;
 
-            return Amount.Equals(other.Amount)
-                && Currency.Equals(other.Currency)
-                && Unit.Scale.Equals(other.Unit.Scale);
+            if (!Currency.Equals(other.Currency))
+                return false;
+
+            var first = Amount * other.Unit.Scale;
+            var second = other.Amount * Unit.Scale;
+
+            return first.Equals(second);
         }
     }
 }
