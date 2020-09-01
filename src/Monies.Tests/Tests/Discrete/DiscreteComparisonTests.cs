@@ -109,17 +109,17 @@ namespace Monies.Tests
 
         public static TheoryData<Discrete<string>, Discrete<string>> EquivalentAmount => new TheoryData<Discrete<string>, Discrete<string>>
         {
-            { Money.Discrete(1, "XBT", Money.Unit(1, "XBT")), Money.Discrete(100, "XBT", Money.Unit(100, "XBT")) },
-            { Money.Discrete(200, "XBT", Money.Unit(4, "XBT")), Money.Discrete(400, "XBT", Money.Unit(8, "XBT")) },
-            { Money.Discrete(0, string.Empty, Money.Unit(2, string.Empty)), Money.Discrete(0, string.Empty, Money.Unit(3, string.Empty)) },
-            { Money.Discrete(-50, "$", Money.Unit(1, "$")), Money.Discrete(-5000, "$", Money.Unit(100, "$")) },
+            { Money.Discrete(1, Money.Unit(1, "XBT")), Money.Discrete(100, Money.Unit(100, "XBT")) },
+            { Money.Discrete(200, Money.Unit(4, "XBT")), Money.Discrete(400, Money.Unit(8, "XBT")) },
+            { Money.Discrete(0, Money.Unit(2, string.Empty)), Money.Discrete(0, Money.Unit(3, string.Empty)) },
+            { Money.Discrete(-50, Money.Unit(1, "$")), Money.Discrete(-5000, Money.Unit(100, "$")) },
         };
 
         public static TheoryData<Discrete<string>, Discrete<string>> DifferentUnits => new TheoryData<Discrete<string>, Discrete<string>>
         {
-            { Money.Discrete(100, "$", Money.Unit(1, "$")), Money.Discrete(100, "$", Money.Unit(100, "$")) },
-            { Money.Discrete(40, "USD", Money.Unit(2, "USD")), Money.Discrete(40, "USD", Money.Unit(3, "USD")) },
-            { Money.Discrete(-1, "", Money.Unit(1001, "")), Money.Discrete(-1, "", Money.Unit(1000, "")) },
+            { Money.Discrete(100, Money.Unit(1, "$")), Money.Discrete(100, Money.Unit(100, "$")) },
+            { Money.Discrete(40, Money.Unit(2, "USD")), Money.Discrete(40, Money.Unit(3, "USD")) },
+            { Money.Discrete(-1, Money.Unit(1001, "")), Money.Discrete(-1, Money.Unit(1000, "")) },
         };
 
         [Theory]

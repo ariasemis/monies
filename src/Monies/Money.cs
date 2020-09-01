@@ -17,6 +17,11 @@ namespace Monies
             => Discrete(amount, currency, Unit(1, currency));
 
         [DebuggerStepThrough]
+        public static Discrete<TCurrency> Discrete<TCurrency>(long amount, Unit<TCurrency> unit)
+            where TCurrency : IEquatable<TCurrency>
+            => new Discrete<TCurrency>(amount, unit == null ? default : unit.Currency, unit);
+
+        [DebuggerStepThrough]
         public static Discrete<TCurrency> Discrete<TCurrency>(long amount, TCurrency currency, Unit<TCurrency> unit)
             where TCurrency : IEquatable<TCurrency>
             => new(amount, currency, unit);

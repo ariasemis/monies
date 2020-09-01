@@ -37,7 +37,7 @@ namespace Monies.Tests
 
         [Theory]
         [MemberData(nameof(ValidCases))]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1026:Theory methods should use all of their parameters", Justification = "<Pending>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1026:Theory methods should use all of their parameters", Justification = "Reusing the set of test cases")]
         public void Created_money_with_default_unit_has_expected_values(long amount, string currency, Unit<string> _)
         {
             var unit = Money.Unit(1, currency);
@@ -46,6 +46,20 @@ namespace Monies.Tests
             Assert.NotNull(actual);
             Assert.Equal(amount, actual.Amount);
             Assert.Equal(currency, actual.Currency);
+            Assert.Equal(unit.Scale, actual.Unit.Scale);
+        }
+
+        [Theory]
+        [MemberData(nameof(ValidCases))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1026:Theory methods should use all of their parameters", Justification = "Reusing the set of test cases")]
+        public void Created_money_with_default_currency_has_expected_values(long amount, string _, Unit<string> unit)
+        {
+            var expected = unit.Currency;
+            var actual = Money.Discrete(amount, unit);
+
+            Assert.NotNull(actual);
+            Assert.Equal(amount, actual.Amount);
+            Assert.Equal(expected, actual.Currency);
             Assert.Equal(unit.Scale, actual.Unit.Scale);
         }
 
