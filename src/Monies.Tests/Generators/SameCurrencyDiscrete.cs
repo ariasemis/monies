@@ -55,11 +55,14 @@ namespace Monies.Tests.Generators
                       from amount2 in Arb.Default.Int64().Generator
                       from amount3 in Arb.Default.Int64().Generator
                       from currency in Arb.Generate<T>()
+                      from unit1 in UnitGenerator.Generator(currency)
+                      from unit2 in UnitGenerator.Generator(currency)
+                      from unit3 in UnitGenerator.Generator(currency)
                       where currency != null
                       select new SameCurrencyDiscrete<T>(
-                          Money.Discrete(amount1, currency),
-                          Money.Discrete(amount2, currency),
-                          Money.Discrete(amount3, currency));
+                          Money.Discrete(amount1, currency, unit1),
+                          Money.Discrete(amount2, currency, unit2),
+                          Money.Discrete(amount3, currency, unit3));
 
             return Arb.From(gen, Shrinker);
         }

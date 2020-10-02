@@ -193,7 +193,7 @@ namespace Monies.Tests
 
         public static TheoryData<Discrete<string>, Discrete<string>> SmallerAmount => new TheoryData<Discrete<string>, Discrete<string>>
         {
-            { Money.Discrete(33, "XBT"), Money.Discrete(31, "XBT") },
+            { Money.Discrete(31, "XBT"), Money.Discrete(33, "XBT") },
             { Money.Discrete(100, ""), Money.Discrete(200, "") },
             { Money.Discrete(-5, "$"), Money.Discrete(5, "$") },
             { Money.Discrete(-10, "840"), Money.Discrete(-9, "840")  },
