@@ -14,6 +14,7 @@ namespace Monies.Tests.Attributes
                 typeof(AmountArbitrary),
                 typeof(DiscreteArbitrary),
                 typeof(UnitArbitrary),
+                typeof(SameCurrencyDiscreteArbitrary),
             };
         }
     }
@@ -29,6 +30,7 @@ namespace Monies.Tests.Attributes
                 typeof(AmountArbitrary),
                 typeof(DiscreteArbitrary),
                 typeof(UnitArbitrary),
+                typeof(SameCurrencyDiscreteArbitrary),
             };
         }
     }

@@ -18,11 +18,15 @@ namespace Monies.Tests
             Assert.True(Equals(x, y));
             Assert.True(x == y);
             Assert.False(x != y);
+            Assert.True(x >= y);
+            Assert.True(x <= y);
 
             if (x != null)
             {
                 Assert.True(x.Equals(y));
                 Assert.True(x.Equals((object)y));
+                Assert.Equal(0, x.CompareTo(y));
+                Assert.Equal(0, x.CompareTo((object)y));
             }
         }
 
@@ -44,6 +48,10 @@ namespace Monies.Tests
                 Assert.True(x.Equals((object)z));
                 Assert.True(x == z);
                 Assert.False(x != z);
+                Assert.Equal(0, x.CompareTo(z));
+                Assert.Equal(0, x.CompareTo((object)z));
+                Assert.True(x <= z);
+                Assert.True(x >= z);
             }
         }
 
@@ -56,6 +64,10 @@ namespace Monies.Tests
             Assert.True(x.Equals((object)y));
             Assert.True(x == y);
             Assert.False(x != y);
+            Assert.Equal(0, x.CompareTo(y));
+            Assert.Equal(0, x.CompareTo((object)y));
+            Assert.True(x >= y);
+            Assert.True(x <= y);
 
             Assert.Equal(x.GetHashCode(), y.GetHashCode());
         }
@@ -67,6 +79,8 @@ namespace Monies.Tests
             Assert.False(x.Equals((object)null));
             Assert.False(x == null);
             Assert.True(x != null);
+            Assert.NotEqual(0, x.CompareTo(null));
+            Assert.NotEqual(0, x.CompareTo((object)null));
         }
 
         [Property]
@@ -75,6 +89,84 @@ namespace Monies.Tests
             var y = new { x.Amount, x.Currency, x.Unit };
 
             Assert.False(x.Equals(y));
+        }
+
+        [Property]
+        public void At_least_one_money_must_be_lt_or_eq_the_other(SameCurrencyDiscrete<T> monies)
+        {
+            var (x, y) = monies;
+
+            Assert.True(x.CompareTo(y) <= 0 || y.CompareTo(x) <= 0);
+            Assert.True(x.CompareTo((object)y) <= 0 || y.CompareTo((object)x) <= 0);
+            Assert.True(x <= y || y <= x);
+            Assert.True(x >= y || y >= x);
+        }
+
+        [Property]
+        public void If_both_are_lte_then_they_are_equal(SameCurrencyDiscrete<T> monies)
+        {
+            var (x, y) = monies;
+
+            if (x <= y && y <= x)
+            {
+                Assert.True(x.Equals(y));
+                Assert.True(x.Equals((object)y));
+                Assert.True(x == y);
+                Assert.False(x != y);
+                Assert.Equal(0, x.CompareTo(y));
+                Assert.Equal(0, x.CompareTo((object)y));
+            }
+        }
+
+        [Property]
+        public void If_not_equal_then_x_to_y_is_opposite_than_y_to_x(SameCurrencyDiscrete<T> monies)
+        {
+            var (x, y) = monies;
+
+            var r = x.CompareTo(y);
+            if (r != 0)
+            {
+                var sign = Math.Sign(r) * -1;
+
+                Assert.Equal(sign, Math.Sign(y.CompareTo(x)));
+                Assert.Equal(sign, Math.Sign(y.CompareTo((object)x)));
+                Assert.True(x < y != y < x);
+                Assert.True(x <= y != y <= x);
+                Assert.True(x > y != y > x);
+                Assert.True(x >= y != y >= x);
+            }
+        }
+
+        [Property]
+        public void If_x_lte_y_and_y_lte_z_then_x_lte_z(SameCurrencyDiscrete<T> monies)
+        {
+            var (x, y, z) = monies;
+
+            if (x <= y && y <= z)
+            {
+                Assert.True(x <= z);
+                Assert.True(x.CompareTo(z) <= 0);
+                Assert.True(x.CompareTo((object)z) <= 0);
+            }
+        }
+
+        [Property]
+        public void Money_is_greater_than_null(Discrete<T> x)
+        {
+            Assert.True(x.CompareTo(null) > 0);
+            Assert.True(x.CompareTo((object)null) > 0);
+            Assert.True(x > null);
+            Assert.True(x >= null);
+            Assert.False(x < null);
+            Assert.False(x <= null);
+        }
+
+        [Property]
+        public void Cannot_compare_money_with_another_object(Discrete<T> x)
+        {
+            var y = new { x.Amount, x.Currency };
+
+            Assert.Throws<ArgumentException>(() => x.CompareTo(y));
         }
     }
 
@@ -141,6 +233,8 @@ namespace Monies.Tests
             Assert.False(x.Equals((object)y));
             Assert.False(x == y);
             Assert.True(x != y);
+            Assert.NotEqual(0, x.CompareTo(y));
+            Assert.NotEqual(0, x.CompareTo((object)y));
         }
 
         [Theory]
@@ -161,7 +255,44 @@ namespace Monies.Tests
             Assert.False(x.Equals((object)y));
             Assert.False(x == y);
             Assert.True(x != y);
+            Assert.NotEqual(0, x.CompareTo(y));
+            Assert.NotEqual(0, x.CompareTo((object)y));
         }
 
+        [Theory]
+        [MemberData(nameof(GreaterAmount))]
+        public void Money_is_greater_if_amount_is_greater(Discrete<string> x, Discrete<string> y)
+        {
+            Assert.True(x.CompareTo(y) > 0);
+            Assert.True(x.CompareTo((object)y) > 0);
+            Assert.True(x > y);
+            Assert.True(x >= y);
+            Assert.False(x < y);
+            Assert.False(x <= y);
+        }
+
+        [Theory]
+        [MemberData(nameof(SmallerAmount))]
+        public void Money_is_smaller_if_amount_is_smaller(Discrete<string> x, Discrete<string> y)
+        {
+            Assert.True(x.CompareTo(y) < 0);
+            Assert.True(x.CompareTo((object)y) < 0);
+            Assert.True(x < y);
+            Assert.True(x <= y);
+            Assert.False(x > y);
+            Assert.False(x >= y);
+        }
+
+        [Theory]
+        [MemberData(nameof(DifferentCurrencies))]
+        public void Cannot_compare_money_with_different_currencies<T>(Discrete<T> x, Discrete<T> y) where T : IEquatable<T>
+        {
+            Assert.Throws<InvalidOperationException>(() => x.CompareTo(y));
+            Assert.Throws<InvalidOperationException>(() => x.CompareTo((object)y));
+            Assert.Throws<InvalidOperationException>(() => x < y);
+            Assert.Throws<InvalidOperationException>(() => x > y);
+            Assert.Throws<InvalidOperationException>(() => x <= y);
+            Assert.Throws<InvalidOperationException>(() => x >= y);
+        }
     }
 }
