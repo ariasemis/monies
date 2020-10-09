@@ -37,12 +37,23 @@ Target.create "Clean" (fun _ ->
     DotNet.exec setOptions "clean" sln |> ignore
 )
 
+Target.create "Restore" (fun _ ->
+    Trace.log " --- Restoring Dependencies --- "
+
+    let setOptions (options: DotNet.RestoreOptions) =
+        { options with
+            Common = { options.Common with CustomParams = Some "--locked-mode" } }
+
+    DotNet.restore setOptions sln
+)
+
 Target.create "Build" (fun _ ->
     Trace.log " --- Building --- "
 
     let setOptions (options: DotNet.BuildOptions) =
         { options with 
-            Configuration = BuildConfiguration.get () }
+            Configuration = BuildConfiguration.get ()
+            NoRestore = true }
 
     DotNet.build setOptions sln
 )
@@ -63,6 +74,7 @@ Target.create "Test" (fun _ ->
 open Fake.Core.TargetOperators
 
 "Clean"
+    ==> "Restore"
     ==> "Build"
     ==> "Test"
 
