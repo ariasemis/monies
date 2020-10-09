@@ -38,6 +38,14 @@ jobs:
           Write-Host Copying from $from to $to;
           Copy-Item "$from\*" $to -Recurse -Force;
         }
+    - name: 💾 Cache dependencies
+      uses: actions/cache@v2
+      with: 
+        path: ~/.nuget/packages
+        key: ${{ runner.OS }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.OS }}-nuget-
+          ${{ runner.OS }}-
     - name: 🔨 Restore tools
       run: dotnet tool restore
     - name: 🧪 Build & Test
