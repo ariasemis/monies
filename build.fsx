@@ -14,7 +14,7 @@ let sln = "./src/Monies.sln"
 module BuildConfiguration =
     let get () =
         DotNet.BuildConfiguration.fromEnvironVarOrDefault
-            "BuildConfiguration"
+            "BUILD_CONFIGURATION"
             DotNet.BuildConfiguration.Debug
 
     let toString (config: DotNet.BuildConfiguration) =
