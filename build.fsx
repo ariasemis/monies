@@ -1,6 +1,5 @@
 #r "paket:
 nuget Fake.Core.Target
-nuget Fake.IO.FileSystem
 nuget Fake.DotNet.Cli
 "
 
@@ -12,22 +11,51 @@ open Fake.DotNet
 // properties
 let sln = "./src/Monies.sln"
 
+module BuildConfiguration =
+    let get () =
+        DotNet.BuildConfiguration.fromEnvironVarOrDefault
+            "BuildConfiguration"
+            DotNet.BuildConfiguration.Debug
+
+    let toString (config: DotNet.BuildConfiguration) =
+        match config with
+            | DotNet.BuildConfiguration.Debug -> "Debug"
+            | DotNet.BuildConfiguration.Release -> "Release"
+            | DotNet.BuildConfiguration.Custom x -> x
+
 // targets
 
 Target.create "Clean" (fun _ ->
     Trace.log " --- Cleaning --- "
-    DotNet.exec id "clean" sln |> ignore
+
+    let config = BuildConfiguration.get () |> BuildConfiguration.toString
+
+    let setOptions (options: DotNet.Options) =
+        { options with
+            CustomParams = Some (sprintf "--configuration %s" config) }
+
+    DotNet.exec setOptions "clean" sln |> ignore
 )
 
 Target.create "Build" (fun _ ->
     Trace.log " --- Building --- "
-    // TODO: build release
-    DotNet.build id sln
+
+    let setOptions (options: DotNet.BuildOptions) =
+        { options with 
+            Configuration = BuildConfiguration.get () }
+
+    DotNet.build setOptions sln
 )
 
 Target.create "Test" (fun _ ->
     Trace.log " --- Running Tests --- "
-    DotNet.test id sln
+    
+    let setOptions (options: DotNet.TestOptions) =
+        { options with
+            Configuration = BuildConfiguration.get ()
+            NoBuild = true }
+
+    DotNet.test setOptions sln
 )
 
 // dependency graph
