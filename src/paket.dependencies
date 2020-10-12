@@ -1,0 +1,9 @@
+storage: none
+source https://api.nuget.org/v3/index.json
+
+nuget FsCheck.Xunit
+nuget Microsoft.CodeAnalysis.FxCopAnalyzers
+nuget Microsoft.NET.Test.Sdk
+nuget Microsoft.NETFramework.ReferenceAssemblies
+nuget xunit
+nuget xunit.runner.visualstudio

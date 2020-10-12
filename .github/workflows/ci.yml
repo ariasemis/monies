@@ -31,7 +31,7 @@ jobs:
       uses: actions/cache@v2
       with: 
         path: ~/.nuget/packages
-        key: ${{ runner.OS }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        key: ${{ runner.OS }}-nuget-${{ hashFiles('**/paket.lock') }}
         restore-keys: |
           ${{ runner.OS }}-nuget-
           ${{ runner.OS }}-
