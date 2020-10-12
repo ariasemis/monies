@@ -4,11 +4,6 @@
     <TargetFrameworks>net461;net47;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="FsCheck.Xunit" Version="2.14.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />

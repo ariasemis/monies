@@ -40,11 +40,7 @@ Target.create "Clean" (fun _ ->
 Target.create "Restore" (fun _ ->
     Trace.log " --- Restoring Dependencies --- "
 
-    let setOptions (options: DotNet.RestoreOptions) =
-        { options with
-            Common = { options.Common with CustomParams = Some "--locked-mode" } }
-
-    DotNet.restore setOptions sln
+    DotNet.restore id sln
 )
 
 Target.create "Build" (fun _ ->
