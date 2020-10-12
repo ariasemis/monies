@@ -18,7 +18,7 @@
         "type": "Direct",
         "requested": "[2.0.3, )",
         "resolved": "2.0.3",
-        "contentHash": "OfGWJfoG7AJJTxZpVte1kIqVMDQDOaC0IeNzPnGrBMT6d/e9wdwbHGSWR3zHIaYozGS6T17V1DWhzP1zs9zruw==",
+        "contentHash": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
