@@ -1,10 +1,11 @@
 ﻿using FsCheck;
 using Monies.Internal;
+using System;
 using System.Linq;
 
 namespace Monies.Tests.Generators
 {
-    public class NonZeroDenominatorArbitrary
+    public static class NonZeroDenominatorArbitrary
     {
         public static Arbitrary<Rational> Get()
         {
@@ -36,42 +37,69 @@ namespace Monies.Tests.Generators
     {
         public PositiveRational(PositiveInt numerator, PositiveInt denominator)
         {
+            if (numerator is null)
+                throw new ArgumentNullException(nameof(numerator));
+
+            if (denominator is null)
+                throw new ArgumentNullException(nameof(denominator));
+
             Item = new Rational(numerator.Item, denominator.Item);
         }
 
         public Rational Item { get; }
 
-        public static implicit operator Rational(PositiveRational positiveRational) => positiveRational.Item;
+        public static implicit operator Rational(PositiveRational positiveRational)
+            => positiveRational?.Item ?? Rational.One;
 
         public override string ToString() => Item.ToString();
+
+        public Rational ToRational() => Item;
     }
 
     public class NegativeRational
     {
         public NegativeRational(NegativeInt numerator, PositiveInt denominator)
         {
+            if (numerator is null)
+                throw new ArgumentNullException(nameof(numerator));
+
+            if (denominator is null)
+                throw new ArgumentNullException(nameof(denominator));
+
             Item = new Rational(numerator.Item, denominator.Item);
         }
 
         public Rational Item { get; }
 
-        public static implicit operator Rational(NegativeRational negativeRational) => negativeRational.Item;
+        public static implicit operator Rational(NegativeRational negativeRational)
+            => negativeRational?.Item ?? -Rational.One;
 
         public override string ToString() => Item.ToString();
+
+        public Rational ToRational() => Item;
     }
 
     public class NonZeroRational
     {
         public NonZeroRational(NonZeroInt numerator, PositiveInt denominator)
         {
+            if (numerator is null)
+                throw new ArgumentNullException(nameof(numerator));
+
+            if (denominator is null)
+                throw new ArgumentNullException(nameof(denominator));
+
             Item = new Rational(numerator.Item, denominator.Item);
         }
 
         public Rational Item { get; }
 
-        public static implicit operator Rational(NonZeroRational nonZeroRational) => nonZeroRational.Item;
+        public static implicit operator Rational(NonZeroRational nonZeroRational)
+            => nonZeroRational?.Item ?? Rational.One;
 
         public override string ToString() => Item.ToString();
+
+        public Rational ToRational() => Item;
     }
 
     public class RationalSet

@@ -9,6 +9,13 @@ namespace Monies.Tests.Generators
     {
         public SameCurrencyDense(Dense<T> first, Dense<T> second, Dense<T> third)
         {
+            if (first == null)
+                throw new ArgumentNullException(nameof(first));
+            if (second == null)
+                throw new ArgumentNullException(nameof(second));
+            if (third == null)
+                throw new ArgumentNullException(nameof(third));
+
             if (!first.Currency.Equals(second.Currency) || !first.Currency.Equals(third.Currency))
             {
                 throw new ArgumentException("all monies must have the same currency");
@@ -47,7 +54,7 @@ namespace Monies.Tests.Generators
         }
     }
 
-    public class SameCurrencyDenseArbitrary
+    public static class SameCurrencyDenseArbitrary
     {
         public static Arbitrary<SameCurrencyDense<T>> Get<T>() where T : IEquatable<T>
         {

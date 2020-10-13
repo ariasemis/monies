@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Monies.Tests.Generators
 {
-    public class DiscreteArbitrary
+    public static class DiscreteArbitrary
     {
         public static Arbitrary<Discrete<T>> Get<T>() where T : IEquatable<T>
         {
@@ -17,13 +17,13 @@ namespace Monies.Tests.Generators
         }
     }
 
-    public class NullDiscreteArbitrary
+    public static class NullDiscreteArbitrary
     {
         public static Arbitrary<Discrete<T>> Get<T>() where T : IEquatable<T>
             => Arb.From(DiscreteGenerators.Generator<T>(), DiscreteGenerators.Shrinker);
     }
 
-    public class DiscreteGenerators
+    public static class DiscreteGenerators
     {
         public static Gen<Discrete<T>> Generator<T>() where T : IEquatable<T>
             => from amount in Arb.Default.Int64().Generator

@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Monies.Tests.Generators
 {
-    public class UnitArbitrary
+    public static class UnitArbitrary
     {
         public static Arbitrary<Unit<T>> Get<T>() where T : IEquatable<T>
             => UnitGenerator.Generator<T>().ToArbitrary();
     }
 
-    public class UnitGenerator
+    public static class UnitGenerator
     {
         public static Gen<Unit<T>> Generator<T>() where T : IEquatable<T>
             => from scale in Arb.Default.Int16().Generator
