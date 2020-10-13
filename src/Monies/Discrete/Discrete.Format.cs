@@ -11,7 +11,7 @@ namespace Monies
             var numberFormatInfo = NumberFormatInfo.GetInstance(CultureInfo.CurrentCulture);
             numberFormatInfo = (NumberFormatInfo)numberFormatInfo.Clone();
 
-            numberFormatInfo.CurrencySymbol = Currency.ToString();
+            numberFormatInfo.CurrencySymbol = Currency.ToString() ?? string.Empty;
 
             var normalized = (decimal)Amount / Unit.Scale;
 

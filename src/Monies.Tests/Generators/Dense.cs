@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Monies.Tests.Generators
 {
-    public class DenseArbitrary
+    public static class DenseArbitrary
     {
         public static Arbitrary<Dense<T>> Get<T>() where T : IEquatable<T>
         {
@@ -17,13 +17,13 @@ namespace Monies.Tests.Generators
         }
     }
 
-    public class NullDenseArbitrary
+    public static class NullDenseArbitrary
     {
         public static Arbitrary<Dense<T>> Get<T>() where T : IEquatable<T>
             => Arb.From(DenseGenerators.Generator<T>(), DenseGenerators.Shrinker);
     }
 
-    public class NonZeroDenseArbitrary
+    public static class NonZeroDenseArbitrary
     {
         public static Arbitrary<Dense<T>> Get<T>() where T : IEquatable<T>
         {
@@ -35,7 +35,7 @@ namespace Monies.Tests.Generators
         }
     }
 
-    public class DenseGenerators
+    public static class DenseGenerators
     {
         public static Gen<Dense<T>> Generator<T>() where T : IEquatable<T>
             => from amount in AmountGenerators.All()

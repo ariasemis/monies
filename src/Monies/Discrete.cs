@@ -4,7 +4,7 @@ namespace Monies
 {
     public sealed partial class Discrete<TCurrency>
     {
-        internal Discrete(long amount, TCurrency currency, Unit<TCurrency> unit)
+        internal Discrete(long amount, TCurrency? currency, Unit<TCurrency>? unit)
         {
             if (currency == null) throw new ArgumentNullException(nameof(currency));
             if (unit == null) throw new ArgumentNullException(nameof(unit));

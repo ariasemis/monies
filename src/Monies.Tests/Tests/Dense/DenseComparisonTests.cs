@@ -263,5 +263,10 @@ namespace Monies.Tests
     public class FakeCurrency : IEquatable<FakeCurrency>
     {
         public bool Equals(FakeCurrency other) => true;
+
+        public override bool Equals(object obj)
+            => Equals(obj as FakeCurrency);
+
+        public override int GetHashCode() => 1;
     }
 }

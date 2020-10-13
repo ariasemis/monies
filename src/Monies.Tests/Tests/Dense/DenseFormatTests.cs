@@ -30,7 +30,7 @@ namespace Monies.Tests
 
             foreach (var format in formats)
             {
-                Assert.Equal(x.ToString(format), x.ToString(format.ToLowerInvariant()));
+                Assert.Equal(x.ToString(format), x.ToString(format.ToUpperInvariant()));
             }
         }
 
@@ -96,10 +96,15 @@ namespace Monies.Tests
         {
             private CurrencyISO() { }
 
-            public static CurrencyISO Instance = new CurrencyISO();
+            public static CurrencyISO Instance { get; } = new CurrencyISO();
 
             public bool Equals(CurrencyISO other)
                 => true;
+
+            public override bool Equals(object obj)
+                => Equals(obj as CurrencyISO);
+
+            public override int GetHashCode() => 1;
 
             public string ToString(string format, IFormatProvider formatProvider)
             {

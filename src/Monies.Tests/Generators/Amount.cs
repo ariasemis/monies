@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Monies.Tests.Generators
 {
-    public class AmountArbitrary
+    public static class AmountArbitrary
     {
         public static Arbitrary<decimal> Get()
             => Arb.From(
@@ -11,7 +11,7 @@ namespace Monies.Tests.Generators
                 Arb.Default.Decimal().Shrinker);
     }
 
-    public class AmountGenerators
+    public static class AmountGenerators
     {
         // TODO: add support for more scenarios/currencies
 

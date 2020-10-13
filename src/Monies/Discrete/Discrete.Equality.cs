@@ -32,10 +32,10 @@ namespace Monies
             }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => Equals(obj as Discrete<TCurrency>);
 
-        public bool Equals(Discrete<TCurrency> other)
+        public bool Equals(Discrete<TCurrency>? other)
         {
             if (other is null)
                 return false;

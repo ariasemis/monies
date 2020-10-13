@@ -26,18 +26,18 @@ namespace Monies
 
         public static bool operator >=(Discrete<TCurrency> left, Discrete<TCurrency> right) => left == right || left > right;
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             if (obj is null)
                 return 1;
 
-            if (!(obj is Discrete<TCurrency> other))
+            if (obj is not Discrete<TCurrency> other)
                 throw new ArgumentException($"{nameof(obj)} must be of type {typeof(Discrete<TCurrency>).Name}", nameof(obj));
 
             return CompareTo(other);
         }
 
-        public int CompareTo(Discrete<TCurrency> other)
+        public int CompareTo(Discrete<TCurrency>? other)
         {
             if (other is null || other < this)
                 return 1;
