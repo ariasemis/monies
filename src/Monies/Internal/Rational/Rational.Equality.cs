@@ -8,12 +8,22 @@ namespace Monies.Internal
             => CompareTo(other) == 0;
 
         public override bool Equals(object obj)
-            => obj is Rational && Equals((Rational)obj);
+            => obj is Rational rational && Equals(rational);
 
         public override int GetHashCode()
         {
-            var d = Numerator / Denominator;
-            return d.GetHashCode();
+            unchecked
+            {
+                if (IsNaN)
+                    return double.NaN.GetHashCode();
+                if (IsPositiveInfinity)
+                    return double.PositiveInfinity.GetHashCode();
+                if (IsNegativeInfinity)
+                    return double.NegativeInfinity.GetHashCode();
+
+                var d = Numerator / Denominator;
+                return d.GetHashCode();
+            }
         }
 
         public static bool operator ==(Rational left, Rational right) => left.Equals(right);

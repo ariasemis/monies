@@ -1,5 +1,7 @@
-﻿using FsCheck.Xunit;
+﻿using FsCheck;
+using FsCheck.Xunit;
 using Monies.Internal;
+using Monies.Tests.Generators;
 using Xunit;
 
 namespace Monies.Tests
@@ -89,19 +91,19 @@ namespace Monies.Tests
             Assert.True((x != y) == (y != x));
         }
 
-        [Property]
-        public void If_x_equals_y_and_y_equals_z_then_x_equals_z(Rational x, Rational y, Rational z)
+        [Property(Arbitrary = new[] { typeof(EquivalentRationalsArbitrary) })]
+        public Property If_x_equals_y_and_y_equals_z_then_x_equals_z(RationalSet set)
         {
-            if (x.Equals(y) && y.Equals(z))
-            {
-                Assert.True(x.Equals(z));
-                Assert.True(x.Equals((object)z));
-                Assert.True(x == z);
-                Assert.False(x != z);
-                Assert.Equal(0, x.CompareTo(z));
-                Assert.True(x <= z);
-                Assert.True(x >= z);
-            }
+            var (x, y, z) = set;
+
+            return x.Equals(z)
+                .And(x.Equals((object)z))
+                .And(x == z)
+                .And(!(x != z))
+                .And(0 == x.CompareTo(z))
+                .And(x <= z)
+                .And(x >= z)
+                .When(x.Equals(y) && y.Equals(z));
         }
 
         [Property]
