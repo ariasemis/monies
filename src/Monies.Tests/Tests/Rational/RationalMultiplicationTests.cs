@@ -28,7 +28,7 @@ namespace Monies.Tests
             Assert.Equal(x, Rational.Multiply(x, Rational.One));
         }
 
-        [Property]
+        [Property(Arbitrary = new[] { typeof(NonZeroDenominatorArbitrary) })]
         public void Multiplying_x_times_0_returns_0(Rational x)
         {
             Assert.Equal(Rational.Zero, x * Rational.Zero);
@@ -59,6 +59,13 @@ namespace Monies.Tests
                 Assert.True((y * x) < (z * x));
                 Assert.True(Rational.Multiply(y, x) < Rational.Multiply(z, x));
             }
+        }
+
+        [Property]
+        public void Multiplying_with_NaN_returns_NaN(Rational x)
+        {
+            Assert.Equal(Rational.NaN, x * Rational.NaN);
+            Assert.Equal(Rational.NaN, Rational.Multiply(x, Rational.NaN));
         }
     }
 }

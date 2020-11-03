@@ -1,5 +1,6 @@
 ﻿using FsCheck.Xunit;
 using Monies.Internal;
+using Monies.Tests.Generators;
 using Xunit;
 
 namespace Monies.Tests
@@ -29,11 +30,18 @@ namespace Monies.Tests
             Assert.Equal(x, Rational.Add(Rational.Zero, x));
         }
 
-        [Property]
+        [Property(Arbitrary = new[] { typeof(NonZeroDenominatorArbitrary) })]
         public void Adding_the_opposite_returns_0(Rational x)
         {
             Assert.Equal(Rational.Zero, x + (-x));
             Assert.Equal(Rational.Zero, Rational.Add(x, Rational.Negate(x)));
+        }
+
+        [Property]
+        public void Adding_NaN_returns_NaN(Rational x)
+        {
+            Assert.Equal(Rational.NaN, x + Rational.NaN);
+            Assert.Equal(Rational.NaN, Rational.Add(x, Rational.NaN));
         }
     }
 }

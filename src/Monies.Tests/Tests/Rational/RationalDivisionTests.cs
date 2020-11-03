@@ -53,5 +53,12 @@ namespace Monies.Tests
             Assert.Equal(x / (y_ * z_), x / y_ / z_);
             Assert.Equal(Rational.Divide(x, Rational.Multiply(y_, z_)), Rational.Divide(Rational.Divide(x, y_), z_));
         }
+
+        [Property]
+        public void Dividing_with_NaN_returns_NaN(Rational x)
+        {
+            Assert.Equal(Rational.NaN, x / Rational.NaN);
+            Assert.Equal(Rational.NaN, Rational.Divide(x, Rational.NaN));
+        }
     }
 }

@@ -10,8 +10,10 @@ namespace Monies.Internal
             if (sign != 0)
                 return sign;
 
-            if (IsInfinity && other.IsInfinity)
+            if ((IsNaN && other.IsNaN) || (IsInfinity && other.IsInfinity))
                 return 0;
+            if (IsNaN || other.IsNaN)
+                return Denominator.CompareTo(other.Denominator);
             if (IsPositiveInfinity || other.IsNegativeInfinity)
                 return 1;
             if (IsNegativeInfinity || other.IsPositiveInfinity)

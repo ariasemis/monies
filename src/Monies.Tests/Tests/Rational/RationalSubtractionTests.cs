@@ -32,5 +32,12 @@ namespace Monies.Tests
             Assert.Equal(x - y, x + (-y));
             Assert.Equal(Rational.Subtract(x, y), Rational.Add(x, Rational.Negate(y)));
         }
+
+        [Property]
+        public void Substracting_NaN_returns_NaN(Rational x)
+        {
+            Assert.Equal(Rational.NaN, x - Rational.NaN);
+            Assert.Equal(Rational.NaN, Rational.Subtract(x, Rational.NaN));
+        }
     }
 }
