@@ -25,7 +25,7 @@ namespace Monies
             {
                 int hash = 13;
 
-                hash = hash * 397 + (Amount * Unit.Scale).GetHashCode();
+                hash = hash * 397 + (Amount / Unit.Scale).GetHashCode();
                 hash = hash * 397 + Currency.GetHashCode();
 
                 return hash;

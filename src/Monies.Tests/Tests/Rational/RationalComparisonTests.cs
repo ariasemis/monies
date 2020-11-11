@@ -33,44 +33,36 @@ namespace Monies.Tests
         };
 
         [Property]
-        public void Rational_is_equal_to_itself(Rational x)
+        public void Rational_equality_methods_are_equivalent(Rational x, Rational y)
         {
-            var y = x;
+            var expected = Equals(x, y);
 
-            Assert.True(Equals(x, y));
-            Assert.True(x == y);
-            Assert.True(x >= y);
-            Assert.True(x <= y);
-            Assert.True(x.Equals(y));
-            Assert.True(x.Equals((object)y));
-            Assert.Equal(0, x.CompareTo(y));
+            Assert.Equal(expected, x == y);
+            Assert.NotEqual(expected, x != y);
+            Assert.Equal(expected, x.Equals(y));
+            Assert.Equal(expected, x.Equals((object)y));
+            Assert.Equal(expected, x >= y && x <= y);
+            Assert.Equal(expected, 0 == x.CompareTo(y));
+
+            if (expected)
+            {
+                Assert.Equal(x.GetHashCode(), y.GetHashCode());
+            }
         }
+
+        [Property]
+        public bool Rational_is_equal_to_itself(Rational x)
+            => Specs.Equality.Reflexivity(x);
 
         [Theory]
         [MemberData(nameof(SameValues))]
-        public void Rational_are_equivalent_if_represent_the_same_value(Rational x, Rational y)
-        {
-            Assert.True(Equals(x, y));
-            Assert.True(x == y);
-            Assert.True(x >= y);
-            Assert.True(x <= y);
-            Assert.True(x.Equals(y));
-            Assert.True(x.Equals((object)y));
-            Assert.Equal(0, x.CompareTo(y));
-            Assert.Equal(x.GetHashCode(), y.GetHashCode());
-        }
+        public bool Rational_are_equivalent_if_represent_the_same_value(Rational x, Rational y)
+            => x == y;
 
         [Theory]
         [MemberData(nameof(DifferentValues))]
-        public void Rational_are_not_equal_if_different_values(Rational x, Rational y)
-        {
-            Assert.True(x != y);
-            Assert.False(x == y);
-            Assert.False(Equals(x, y));
-            Assert.False(x.Equals(y));
-            Assert.False(x.Equals((object)y));
-            Assert.NotEqual(0, x.CompareTo(y));
-        }
+        public bool Rational_are_not_equal_if_different_values(Rational x, Rational y)
+            => x != y;
 
         [Fact]
         public void Rational_is_not_equal_to_another_object()
@@ -83,27 +75,14 @@ namespace Monies.Tests
         }
 
         [Property]
-        public void If_x_equals_y_then_y_equals_x(Rational x, Rational y)
-        {
-            Assert.True(x.Equals(y) == y.Equals(x));
-            Assert.True(x.Equals((object)y) == y.Equals((object)x));
-            Assert.True((x == y) == (y == x));
-            Assert.True((x != y) == (y != x));
-        }
+        public bool If_x_equals_y_then_y_equals_x(Rational x, Rational y)
+            => Specs.Equality.Symmetry(x, y);
 
         [Property(Arbitrary = new[] { typeof(EquivalentRationalsArbitrary) })]
         public Property If_x_equals_y_and_y_equals_z_then_x_equals_z(RationalSet set)
         {
             var (x, y, z) = set;
-
-            return x.Equals(z)
-                .And(x.Equals((object)z))
-                .And(x == z)
-                .And(!(x != z))
-                .And(0 == x.CompareTo(z))
-                .And(x <= z)
-                .And(x >= z)
-                .When(x.Equals(y) && y.Equals(z));
+            return Specs.Equality.Transitivity(x, y, z);
         }
 
         [Property]

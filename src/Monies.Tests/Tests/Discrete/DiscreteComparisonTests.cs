@@ -11,49 +11,51 @@ namespace Monies.Tests
     public abstract class DiscreteComparisonTests<T> where T : IEquatable<T>
     {
         [Property(Arbitrary = new[] { typeof(NullDiscreteArbitrary) })]
-        public void Money_is_equal_to_itself(Discrete<T> x)
+        public void Money_equality_methods_are_equivalent(Discrete<T> x, Discrete<T> y)
         {
-            var y = x;
+            var expected = Equals(x, y);
 
-            Assert.True(Equals(x, y));
-            Assert.True(x == y);
-            Assert.False(x != y);
-            Assert.True(x >= y);
-            Assert.True(x <= y);
+            Assert.Equal(expected, x == y);
+            Assert.NotEqual(expected, x != y);
 
-            if (x != null)
+            if (!(x is null))
             {
-                Assert.True(x.Equals(y));
-                Assert.True(x.Equals((object)y));
-                Assert.Equal(0, x.CompareTo(y));
-                Assert.Equal(0, x.CompareTo((object)y));
+                Assert.Equal(expected, x.Equals(y));
+                Assert.Equal(expected, x.Equals((object)y));
+
+                if (expected)
+                {
+                    Assert.Equal(x.GetHashCode(), y.GetHashCode());
+                }
+            }
+
+            var sameCurrency = x is null || y is null || x.Currency.Equals(y.Currency);
+
+            if (sameCurrency)
+            {
+                Assert.Equal(expected, x >= y && x <= y);
+
+                if (!(x is null))
+                {
+                    Assert.Equal(expected, 0 == x.CompareTo(y));
+                    Assert.Equal(expected, 0 == x.CompareTo((object)y));
+                }
             }
         }
+
+        [Property]
+        public void Money_is_equal_to_itself(Discrete<T> x)
+            => Specs.Equality.Reflexivity(x);
 
         [Property]
         public void If_x_equals_y_then_y_equals_x(Discrete<T> x, Discrete<T> y)
-        {
-            Assert.True(x.Equals(y) == y.Equals(x));
-            Assert.True(x.Equals((object)y) == y.Equals((object)x));
-            Assert.True((x == y) == (y == x));
-            Assert.True((x != y) == (y != x));
-        }
+            => Specs.Equality.Symmetry(x, y);
 
-        [Property]
+        // TODO: improve generator in order to fix this test
+        // doing so will also improve other property tests as well
+        [Property(Skip = "we need to restrict the generated values to a smaller range to increase the probability of value clashes")]
         public void If_x_equals_y_and_y_equals_z_then_x_equals_z(Discrete<T> x, Discrete<T> y, Discrete<T> z)
-        {
-            if (x.Equals(y) && y.Equals(z))
-            {
-                Assert.True(x.Equals(z));
-                Assert.True(x.Equals((object)z));
-                Assert.True(x == z);
-                Assert.False(x != z);
-                Assert.Equal(0, x.CompareTo(z));
-                Assert.Equal(0, x.CompareTo((object)z));
-                Assert.True(x <= z);
-                Assert.True(x >= z);
-            }
-        }
+            => Specs.Equality.Transitivity(x, y, z);
 
         [Property]
         public void Monies_with_same_amount_currency_and_unit_are_equal(Discrete<T> x)
@@ -61,26 +63,12 @@ namespace Monies.Tests
             var y = Money.Discrete(x.Amount, x.Currency, x.Unit);
 
             Assert.True(x.Equals(y));
-            Assert.True(x.Equals((object)y));
-            Assert.True(x == y);
-            Assert.False(x != y);
-            Assert.Equal(0, x.CompareTo(y));
-            Assert.Equal(0, x.CompareTo((object)y));
-            Assert.True(x >= y);
-            Assert.True(x <= y);
-
-            Assert.Equal(x.GetHashCode(), y.GetHashCode());
         }
 
         [Property]
         public void Money_is_not_equal_to_null(Discrete<T> x)
         {
             Assert.False(x.Equals(null));
-            Assert.False(x.Equals((object)null));
-            Assert.False(x == null);
-            Assert.True(x != null);
-            Assert.NotEqual(0, x.CompareTo(null));
-            Assert.NotEqual(0, x.CompareTo((object)null));
         }
 
         [Property]
@@ -110,11 +98,6 @@ namespace Monies.Tests
             if (x <= y && y <= x)
             {
                 Assert.True(x.Equals(y));
-                Assert.True(x.Equals((object)y));
-                Assert.True(x == y);
-                Assert.False(x != y);
-                Assert.Equal(0, x.CompareTo(y));
-                Assert.Equal(0, x.CompareTo((object)y));
             }
         }
 
@@ -219,9 +202,6 @@ namespace Monies.Tests
         public void Monies_with_same_amount_but_different_currency_are_not_equal(Discrete<string> x, Discrete<string> y)
         {
             Assert.False(x.Equals(y));
-            Assert.False(x.Equals((object)y));
-            Assert.False(x == y);
-            Assert.True(x != y);
         }
 
         [Theory]
@@ -230,11 +210,6 @@ namespace Monies.Tests
         public void Monies_with_different_amount_but_same_currency_are_not_equal(Discrete<string> x, Discrete<string> y)
         {
             Assert.False(x.Equals(y));
-            Assert.False(x.Equals((object)y));
-            Assert.False(x == y);
-            Assert.True(x != y);
-            Assert.NotEqual(0, x.CompareTo(y));
-            Assert.NotEqual(0, x.CompareTo((object)y));
         }
 
         [Theory]
@@ -242,9 +217,6 @@ namespace Monies.Tests
         public void Monies_with_equivalent_amounts_and_same_currency_are_equal(Discrete<string> x, Discrete<string> y)
         {
             Assert.True(x.Equals(y));
-            Assert.True(x.Equals((object)y));
-            Assert.True(x == y);
-            Assert.False(x != y);
         }
 
         [Theory]
@@ -252,11 +224,6 @@ namespace Monies.Tests
         public void Monies_with_different_units_are_not_equal(Discrete<string> x, Discrete<string> y)
         {
             Assert.False(x.Equals(y));
-            Assert.False(x.Equals((object)y));
-            Assert.False(x == y);
-            Assert.True(x != y);
-            Assert.NotEqual(0, x.CompareTo(y));
-            Assert.NotEqual(0, x.CompareTo((object)y));
         }
 
         [Theory]
