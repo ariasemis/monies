@@ -39,3 +39,8 @@ jobs:
       run: dotnet tool restore
     - name: 🧪 Build & Test
       run: dotnet fake build --target test
+    - name: 📊 Publish coverage report
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/Monies.Tests/TestResults/coverage.netcoreapp3.1.info
