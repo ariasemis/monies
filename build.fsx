@@ -1,12 +1,14 @@
 #r "paket:
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
+nuget Fake.DotNet.Testing.Coverlet
 "
 
 #load "./.fake/build.fsx/intellisense.fsx"
 
 open Fake.Core
 open Fake.DotNet
+open Fake.DotNet.Testing
 
 // properties
 let sln = "./src/Monies.sln"
@@ -60,7 +62,13 @@ Target.create "Test" (fun _ ->
     let setOptions (options: DotNet.TestOptions) =
         { options with
             Configuration = BuildConfiguration.get ()
-            NoBuild = true }
+            NoBuild = true
+        }
+        |> Coverlet.withDotNetTestOptions (fun p ->
+            { p with
+                OutputFormat = Coverlet.OutputFormat.Lcov
+                Output = "TestResults/"
+            })
 
     DotNet.test setOptions sln
 )
