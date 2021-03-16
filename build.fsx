@@ -2,6 +2,8 @@
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
 nuget Fake.DotNet.Testing.Coverlet
+nuget Fake.Tools.GitVersion
+nuget GitVersion.CommandLine storage:packages
 "
 
 #load "./.fake/build.fsx/intellisense.fsx"
@@ -9,8 +11,11 @@ nuget Fake.DotNet.Testing.Coverlet
 open Fake.Core
 open Fake.DotNet
 open Fake.DotNet.Testing
+open Fake.Tools
 
+// *********************************
 // properties
+
 let sln = "./src/Monies.sln"
 
 module BuildConfiguration =
@@ -25,6 +30,18 @@ module BuildConfiguration =
             | DotNet.BuildConfiguration.Release -> "Release"
             | DotNet.BuildConfiguration.Custom x -> x
 
+let getVersion() =
+    Trace.log " --- Computing version --- "
+    let setParams (p: GitVersion.GitversionParams) =
+        { p with ToolPath = ".fake/build.fsx/packages/GitVersion.CommandLine/tools/GitVersion.exe" }
+    let version = GitVersion.generateProperties setParams
+    Trace.logf "Version is : %s " version.SemVer
+    Trace.setBuildNumber version.SemVer
+    version
+
+let version = lazy ( getVersion() )
+
+// *********************************
 // targets
 
 Target.create "Clean" (fun _ ->
@@ -73,6 +90,23 @@ Target.create "Test" (fun _ ->
     DotNet.test setOptions sln
 )
 
+Target.create "Pack" (fun _ ->
+    Trace.log " --- Packaging nuget --- "
+
+    let packageVersion = (version.Force()).NuGetVersion
+
+    let setOptions (options: DotNet.PackOptions) =
+        { options with
+            Configuration = BuildConfiguration.get ()
+            NoBuild = true
+            Common = { options.Common with CustomParams = Some (sprintf "/p:PackageVersion=\"%s\"" packageVersion) } }
+    
+    DotNet.pack setOptions sln
+)
+
+Target.create "All" (fun _ -> Trace.log " --- END --- " )
+
+// *********************************
 // dependency graph
 
 open Fake.Core.TargetOperators
@@ -81,6 +115,8 @@ open Fake.Core.TargetOperators
     ==> "Restore"
     ==> "Build"
     ==> "Test"
+    ==> "Pack"
+    ==> "All"
 
 // run
 Target.runOrDefault "Build"
