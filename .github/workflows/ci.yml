@@ -5,20 +5,25 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  release:
+    types:
+      - published
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  BUILD_CONFIGURATION: Release
 
 jobs:
-  build_and_test:
+  build:
 
     runs-on: windows-latest
     
-    env:
-      DOTNET_NOLOGO: true
-      DOTNET_CLI_TELEMETRY_OPTOUT: true
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-      BUILD_CONFIGURATION: Release
-    
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: 🧰 Setup .NET Core 2.1
       uses: actions/setup-dotnet@v1
       with:
@@ -27,6 +32,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.x'
+    - name: 🧰 Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
     - name: 💾 Cache dependencies
       uses: actions/cache@v2
       with: 
@@ -37,10 +46,42 @@ jobs:
           ${{ runner.OS }}-
     - name: 🔨 Restore tools
       run: dotnet tool restore
-    - name: 🧪 Build & Test
-      run: dotnet fake build --target test
+    - name: 🧪 Build
+      run: dotnet fake build --target all
+    - name: 📦 Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: nupkg
+        path: ./src/Monies/bin/Release/*.nupkg
     - name: 📊 Publish coverage report
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ./src/Monies.Tests/TestResults/coverage.netcoreapp3.1.info
+  
+  deploy:
+    needs: build
+    if: github.event_name == 'release'
+
+    runs-on: windows-latest
+
+    env:
+      GITHUB_FEED: https://nuget.pkg.github.com/ariasemis/index.json
+      GITHUB_KEY: ${{ secrets.GITHUB_TOKEN }}
+      NUGET_FEED: https://api.nuget.org/v3/index.json
+      NUGET_KEY: ${{ secrets.NUGET_KEY }}
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: 🧰 Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.x'
+    - name: 📦 Download Artifact
+      uses: actions/download-artifact@v1
+      with:
+        name: nupkg
+    - name: 🚀 Push to GitHub Feed
+      run: dotnet nuget push ./nupkg/*.nupkg --source $GITHUB_FEED --api-key $GITHUB_KEY
+    - name: 🚀 Push to NuGet Feed
+      run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
