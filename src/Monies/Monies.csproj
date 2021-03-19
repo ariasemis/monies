@@ -2,6 +2,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Arias Emilio</Authors>
+    <Description>Lossless monetary operations and multi-currency support</Description>
+    <PackageLicenseUrl>https://github.com/ariasemis/monies/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ariasemis/monies</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ariasemis/monies</RepositoryUrl>
+    <PackageTags>money currency</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
