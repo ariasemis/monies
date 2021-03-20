@@ -1,8 +1,9 @@
 # Monies
 
-[![CI](https://github.com/ariasemis/monies/workflows/CI/badge.svg)](https://github.com/ariasemis/monies/actions?query=workflow%3ACI)
-[![License](https://img.shields.io/github/license/ariasemis/monies?label=License)](https://opensource.org/licenses/MPL-2.0)
+[![CI](https://img.shields.io/github/workflow/status/ariasemis/monies/CI?label=CI)](https://github.com/ariasemis/monies/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/ariasemis/monies/badge.svg?branch=master)](https://coveralls.io/github/ariasemis/monies?branch=master)
+[![License](https://img.shields.io/github/license/ariasemis/monies?label=license)](https://opensource.org/licenses/MPL-2.0)
+[![Nuget](https://img.shields.io/nuget/v/Monies)](https://www.nuget.org/packages/Monies)
 
 Yet another money class written in C#
 
