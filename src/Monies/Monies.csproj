@@ -5,12 +5,16 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Arias Emilio</Authors>
     <Description>Lossless monetary operations and multi-currency support</Description>
-    <PackageLicenseUrl>https://github.com/ariasemis/monies/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ariasemis/monies</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ariasemis/monies</RepositoryUrl>
     <PackageTags>money currency</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
