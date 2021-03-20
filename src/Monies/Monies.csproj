@@ -6,9 +6,11 @@
     <Authors>Arias Emilio</Authors>
     <Description>Lossless monetary operations and multi-currency support</Description>
     <PackageProjectUrl>https://github.com/ariasemis/monies</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ariasemis/monies</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ariasemis/monies.git</RepositoryUrl>
     <PackageTags>money currency</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageId>Monies</PackageId>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE">

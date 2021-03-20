@@ -76,12 +76,12 @@ jobs:
     - name: 🧰 Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.x'
+        dotnet-version: '5.0.x'
     - name: 📦 Download Artifact
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v2
       with:
         name: nupkg
     - name: 🚀 Push to GitHub Feed
-      run: dotnet nuget push ./nupkg/*.nupkg --source $GITHUB_FEED --api-key $GITHUB_KEY
+      run: dotnet nuget push **/*.nupkg --source ${{ env.GITHUB_FEED }} --skip-duplicate --api-key ${{ env.GITHUB_KEY }}
     - name: 🚀 Push to NuGet Feed
-      run: dotnet nuget push ./nupkg/*.nupkg --source $NUGET_FEED --skip-duplicate --api-key $NUGET_KEY
+      run: dotnet nuget push **/*.nupkg --source ${{ env.NUGET_FEED }} --skip-duplicate --api-key ${{ env.NUGET_KEY }}
