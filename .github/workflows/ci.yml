@@ -44,10 +44,8 @@ jobs:
         restore-keys: |
           ${{ runner.OS }}-nuget-
           ${{ runner.OS }}-
-    - name: 🔨 Restore tools
-      run: dotnet tool restore
-    - name: 🧪 Build
-      run: dotnet fake build --target all
+    - name: 🔨 Build
+      run: .\build.ps1 --target all
     - name: 📦 Upload Artifact
       uses: actions/upload-artifact@v2
       with:
