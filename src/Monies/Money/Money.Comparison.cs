@@ -23,18 +23,18 @@ namespace Monies
 
         public static bool operator >=(Money<TCurrency> left, Money<TCurrency> right) => left == right || left > right;
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             if (obj is null)
                 return 1;
 
-            if (!(obj is Money<TCurrency> other))
+            if (obj is not Money<TCurrency> other)
                 throw new ArgumentException($"{nameof(obj)} must be of type {typeof(Money<TCurrency>).Name}", nameof(obj));
 
             return CompareTo(other);
         }
 
-        public int CompareTo(Money<TCurrency> other)
+        public int CompareTo(Money<TCurrency>? other)
         {
             if (other is null || other < this)
                 return 1;

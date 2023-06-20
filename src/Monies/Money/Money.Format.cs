@@ -14,7 +14,7 @@ namespace Monies
         public string ToString(IFormatProvider provider)
             => ToString("G", provider);
 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public string ToString(string? format, IFormatProvider? formatProvider)
         {
             if (string.IsNullOrEmpty(format) || format.Equals("G", StringComparison.InvariantCultureIgnoreCase))
                 format = "C";
@@ -25,8 +25,12 @@ namespace Monies
             var numberFormatInfo = NumberFormatInfo.GetInstance(formatProvider);
             numberFormatInfo = (NumberFormatInfo)numberFormatInfo.Clone();
 
-            numberFormatInfo.CurrencySymbol = (Currency is IFormattable currencyFormat) ?
-                currencyFormat.ToString("G", formatProvider) : Currency.ToString();
+            if (Currency is IFormattable currencyFormat)
+                numberFormatInfo.CurrencySymbol = currencyFormat!.ToString("G", formatProvider);
+            else
+            {
+                numberFormatInfo.CurrencySymbol = Currency.ToString() ?? string.Empty;
+            }
 
             return Amount.ToString(format, numberFormatInfo);
         }

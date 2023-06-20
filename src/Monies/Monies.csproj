@@ -11,6 +11,9 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageId>Monies</PackageId>
     <RepositoryType>git</RepositoryType>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <ErrorReport>none</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LICENSE">
