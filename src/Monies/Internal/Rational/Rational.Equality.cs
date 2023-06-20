@@ -7,10 +7,10 @@ namespace Monies.Internal
         public bool Equals(Rational other)
             => CompareTo(other) == 0;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => obj is Rational rational && Equals(rational);
 
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             unchecked
             {

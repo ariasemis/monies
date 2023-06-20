@@ -18,13 +18,13 @@ namespace Monies
 
         public static bool operator !=(Money<TCurrency> left, Money<TCurrency> right) => !(left == right);
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => Equals(obj as Money<TCurrency>);
 
         public override int GetHashCode()
             => (amount.GetHashCode() * 397) ^ Currency.GetHashCode();
 
-        public bool Equals(Money<TCurrency> other)
+        public bool Equals(Money<TCurrency>? other)
         {
             if (other is null)
                 return false;
