@@ -1,10 +1,21 @@
 #r "paket:
+nuget FSharp.Core 6.0.0.0
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
 nuget Fake.DotNet.Testing.Coverlet
 nuget Fake.Tools.GitVersion
 nuget GitVersion.CommandLine storage:packages
-"
+nuget Microsoft.Build 17.3.2
+nuget Microsoft.Build.Framework 17.3.2
+nuget Microsoft.Build.Tasks.Core 17.3.2
+nuget Microsoft.Build.Utilities.Core 17.3.2
+//"
+
+// I'm pinning some dependencies due to these issues with FAKE:
+// * https://github.com/fsprojects/FAKE/issues/2001
+// * https://github.com/fsprojects/FAKE/issues/2719
+// * https://github.com/fsprojects/FAKE/issues/2722
+// I totally need to move away from FAKE, it is causing a lot of headaches...
 
 #load "./.fake/build.fsx/intellisense.fsx"
 
@@ -83,7 +94,7 @@ Target.create "Test" (fun _ ->
         }
         |> Coverlet.withDotNetTestOptions (fun p ->
             { p with
-                OutputFormat = Coverlet.OutputFormat.Lcov
+                OutputFormat = [Coverlet.OutputFormat.Lcov]
                 Output = "TestResults/"
             })
 
