@@ -1,40 +1,4 @@
 STORAGE: NONE
-NUGET
-  remote: https://api.nuget.org/v3/index.json
-    Microsoft.CodeAnalysis.FxCopAnalyzers (3.3.2) - copy_local: true
-      Microsoft.CodeAnalysis.VersionCheckAnalyzer (3.3.2)
-      Microsoft.CodeQuality.Analyzers (3.3.2)
-      Microsoft.NetCore.Analyzers (3.3.2)
-      Microsoft.NetFramework.Analyzers (3.3.2)
-    Microsoft.CodeAnalysis.VersionCheckAnalyzer (3.3.2) - copy_local: true
-    Microsoft.CodeQuality.Analyzers (3.3.2) - copy_local: true
-    Microsoft.NetCore.Analyzers (3.3.2) - copy_local: true
-    Microsoft.NetFramework.Analyzers (3.3.2) - copy_local: true
-    Microsoft.NETFramework.ReferenceAssemblies (1.0)
-      Microsoft.NETFramework.ReferenceAssemblies.net20 (>= 1.0) - restriction: && (>= net20) (< net40)
-      Microsoft.NETFramework.ReferenceAssemblies.net40 (>= 1.0) - restriction: && (>= net40) (< net45)
-      Microsoft.NETFramework.ReferenceAssemblies.net45 (>= 1.0) - restriction: && (>= net45) (< net451)
-      Microsoft.NETFramework.ReferenceAssemblies.net451 (>= 1.0) - restriction: && (>= net451) (< net452)
-      Microsoft.NETFramework.ReferenceAssemblies.net452 (>= 1.0) - restriction: && (>= net452) (< net46)
-      Microsoft.NETFramework.ReferenceAssemblies.net46 (>= 1.0) - restriction: && (>= net46) (< net461)
-      Microsoft.NETFramework.ReferenceAssemblies.net461 (>= 1.0) - restriction: && (>= net461) (< net462)
-      Microsoft.NETFramework.ReferenceAssemblies.net462 (>= 1.0) - restriction: && (>= net462) (< net47)
-      Microsoft.NETFramework.ReferenceAssemblies.net47 (>= 1.0) - restriction: && (>= net47) (< net471)
-      Microsoft.NETFramework.ReferenceAssemblies.net471 (>= 1.0) - restriction: && (>= net471) (< net472)
-      Microsoft.NETFramework.ReferenceAssemblies.net472 (>= 1.0) - restriction: && (>= net472) (< net48)
-      Microsoft.NETFramework.ReferenceAssemblies.net48 (>= 1.0) - restriction: >= net48
-    Microsoft.NETFramework.ReferenceAssemblies.net20 (1.0) - restriction: && (>= net20) (< net40)
-    Microsoft.NETFramework.ReferenceAssemblies.net40 (1.0) - restriction: && (>= net40) (< net45)
-    Microsoft.NETFramework.ReferenceAssemblies.net45 (1.0) - restriction: && (>= net45) (< net451)
-    Microsoft.NETFramework.ReferenceAssemblies.net451 (1.0) - restriction: && (>= net451) (< net452)
-    Microsoft.NETFramework.ReferenceAssemblies.net452 (1.0) - restriction: && (>= net452) (< net46)
-    Microsoft.NETFramework.ReferenceAssemblies.net46 (1.0) - restriction: && (>= net46) (< net461)
-    Microsoft.NETFramework.ReferenceAssemblies.net461 (1.0) - restriction: && (>= net461) (< net462)
-    Microsoft.NETFramework.ReferenceAssemblies.net462 (1.0) - restriction: && (>= net462) (< net47)
-    Microsoft.NETFramework.ReferenceAssemblies.net47 (1.0) - restriction: && (>= net47) (< net471)
-    Microsoft.NETFramework.ReferenceAssemblies.net471 (1.0) - restriction: && (>= net471) (< net472)
-    Microsoft.NETFramework.ReferenceAssemblies.net472 (1.0) - restriction: && (>= net472) (< net48)
-    Microsoft.NETFramework.ReferenceAssemblies.net48 (1.0) - restriction: >= net48
 
 GROUP Test
 NUGET
@@ -182,7 +146,7 @@ NUGET
     System.Buffers (4.5.1) - restriction: || (&& (>= net46) (< netstandard1.4) (>= uap10.0)) (&& (< netstandard1.3) (>= uap10.0)) (&& (< netstandard1.4) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.5) (< netstandard1.6) (>= uap10.0) (< win8) (< wpa81)) (&& (< netstandard1.5) (>= uap10.0) (< uap10.1)) (&& (< netstandard1.5) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.6) (< netstandard2.0) (>= uap10.0) (< win8) (< wpa81))
     System.Collections (4.3) - restriction: || (&& (< monoandroid) (>= netcoreapp1.0) (< netcoreapp2.1) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (>= netcoreapp1.0) (< netstandard2.0) (< xamarintvos) (< xamarinwatchos)) (&& (< netstandard1.2) (>= uap10.0) (< win8)) (&& (< netstandard1.3) (>= uap10.0)) (&& (< netstandard1.4) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.5) (< netstandard1.6) (>= uap10.0) (< win8) (< wpa81)) (&& (< netstandard1.5) (>= uap10.0) (< uap10.1)) (&& (< netstandard1.5) (>= uap10.0) (< win8) (< wpa81)) (&& (< netstandard2.0) (>= uap10.0)) (&& (< portable-net45+win8+wpa81) (>= uap10.0))
     System.Collections.Concurrent (4.3) - restriction: || (&& (< monoandroid) (>= netcoreapp1.0) (< netstandard1.3)) (&& (< monoandroid) (>= netcoreapp1.0) (< netstandard2.0) (< xamarintvos) (< xamarinwatchos)) (&& (< netstandard1.2) (>= uap10.0) (< win8)) (&& (< netstandard1.3) (>= uap10.0)) (&& (< netstandard1.4) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.5) (< netstandard1.6) (>= uap10.0) (< win8) (< wpa81)) (&& (< netstandard1.5) (>= uap10.0) (< uap10.1)) (&& (< netstandard1.5) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.6) (< netstandard2.0) (>= uap10.0) (< win8) (< wpa81))
-    System.Collections.Immutable (5.0) - restriction: || (&& (>= net45) (>= netcoreapp1.0) (< netstandard1.3)) (&& (>= net451) (>= netcoreapp1.0) (>= netstandard2.0)) (&& (>= net461) (>= netcoreapp1.0)) (&& (< net50) (>= netcoreapp1.0) (>= netstandard2.0)) (&& (>= netcoreapp1.0) (< netstandard1.1)) (&& (>= netcoreapp1.0) (< netstandard2.0))
+    System.Collections.Immutable (5.0) - restriction: || (&& (>= net45) (>= netcoreapp1.0) (< netstandard1.3)) (&& (>= net451) (>= netcoreapp1.0) (>= netstandard2.0)) (&& (>= net461) (>= netcoreapp1.0)) (&& (< net5.0) (>= netcoreapp1.0) (>= netstandard2.0)) (&& (>= netcoreapp1.0) (< netstandard1.1)) (&& (>= netcoreapp1.0) (< netstandard2.0))
       NETStandard.Library (>= 1.6.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< netstandard2.0) (< win8) (< wpa81) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (>= netstandard1.0) (< netstandard1.3) (< win8) (< wp8) (< wpa81)) (&& (>= net46) (< net461) (< netstandard2.0))
       System.Memory (>= 4.5.4) - restriction: || (&& (< monoandroid) (< monotouch) (< net45) (>= netstandard1.3) (< netstandard2.0) (< win8) (< wpa81) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net45) (< netcoreapp2.1) (>= netstandard2.0) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (>= net46) (< netstandard2.0)) (>= net461) (>= uap10.1)
     System.ComponentModel.EventBasedAsync (4.3) - restriction: || (&& (>= netcoreapp1.0) (< netstandard1.3)) (&& (>= netcoreapp1.0) (< netstandard2.0))
@@ -338,7 +302,7 @@ NUGET
     System.Reflection.Extensions (4.3) - restriction: || (&& (< monoandroid) (>= netcoreapp1.0) (< netstandard1.3)) (&& (< monoandroid) (>= netcoreapp1.0) (< netstandard2.0) (< xamarintvos) (< xamarinwatchos)) (&& (< netstandard1.2) (>= uap10.0) (< win8)) (&& (< netstandard1.3) (>= uap10.0)) (&& (< netstandard1.4) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.5) (< netstandard1.6) (>= uap10.0) (< win8) (< wpa81)) (&& (< netstandard1.5) (>= uap10.0) (< uap10.1)) (&& (< netstandard1.5) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.6) (< netstandard2.0) (>= uap10.0) (< win8) (< wpa81)) (&& (< portable-net45+win8+wpa81) (>= uap10.0))
     System.Reflection.Metadata (5.0) - restriction: || (&& (< monoandroid) (>= netcoreapp1.0) (< netcoreapp2.1) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (>= net45) (>= netcoreapp1.0) (< netstandard1.3)) (&& (>= net451) (>= netcoreapp1.0)) (&& (>= netcoreapp1.0) (>= netstandard2.0)) (&& (>= netcoreapp1.0) (< netstandard2.0))
       NETStandard.Library (>= 1.6.1) - restriction: && (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)
-      System.Collections.Immutable (>= 5.0) - restriction: || (&& (>= net45) (< netstandard2.0)) (&& (< net45) (< net50) (>= netstandard2.0)) (&& (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)) (>= net461) (&& (< netstandard1.1) (>= portable-net45+win8+wpa81) (< win8)) (&& (< netstandard1.1) (>= win8)) (&& (< netstandard2.0) (>= wpa81))
+      System.Collections.Immutable (>= 5.0) - restriction: || (&& (>= net45) (< netstandard2.0)) (&& (< net45) (< net5.0) (>= netstandard2.0)) (&& (< net45) (>= netstandard1.1) (< netstandard2.0) (< win8) (< wpa81)) (>= net461) (&& (< netstandard1.1) (>= portable-net45+win8+wpa81) (< win8)) (&& (< netstandard1.1) (>= win8)) (&& (< netstandard2.0) (>= wpa81))
     System.Reflection.Primitives (4.3) - restriction: || (&& (< monoandroid) (>= netcoreapp1.0) (< netstandard1.3)) (&& (< monoandroid) (>= netcoreapp1.0) (< netstandard2.0) (< xamarintvos) (< xamarinwatchos)) (&& (< netstandard1.2) (>= uap10.0) (< win8)) (&& (< netstandard1.3) (>= uap10.0)) (&& (< netstandard1.4) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.5) (< netstandard1.6) (>= uap10.0) (< win8) (< wpa81)) (&& (< netstandard1.5) (>= uap10.0) (< uap10.1)) (&& (< netstandard1.5) (>= uap10.0) (< win8) (< wpa81)) (&& (>= netstandard1.6) (< netstandard2.0) (>= uap10.0) (< win8) (< wpa81)) (&& (< portable-net45+win8+wpa81) (>= uap10.0))
     System.Reflection.TypeExtensions (4.7) - restriction: && (>= netcoreapp1.0) (< netstandard2.0)
       System.Reflection (>= 4.3) - restriction: || (&& (< monoandroid) (< monotouch) (< net46) (>= netstandard1.5) (< netstandard2.0) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net46) (>= netstandard1.3) (< netstandard1.5) (< uap10.1))

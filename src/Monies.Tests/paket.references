@@ -1,5 +1,3 @@
-Microsoft.NETFramework.ReferenceAssemblies
-
 group Test
     Microsoft.NET.Test.Sdk
     xunit

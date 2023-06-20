@@ -7,7 +7,7 @@ namespace Monies
     {
         public static Money<TCurrency> Create<TCurrency>(decimal amount, TCurrency currency)
             where TCurrency : IEquatable<TCurrency>
-            => new Money<TCurrency>((Rational)amount, currency);
+            => new((Rational)amount, currency);
     }
 
     public sealed partial class Money<TCurrency>
