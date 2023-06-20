@@ -69,19 +69,18 @@ namespace Monies.Tests.Generators
             if (x == null)
                 yield break;
 
-            using (var first = MoneyGenerators.Shrinker(x.First).GetEnumerator())
-            using (var second = MoneyGenerators.Shrinker(x.Second).GetEnumerator())
-            using (var third = MoneyGenerators.Shrinker(x.Third).GetEnumerator())
+            using var first = MoneyGenerators.Shrinker(x.First).GetEnumerator();
+            using var second = MoneyGenerators.Shrinker(x.Second).GetEnumerator();
+            using var third = MoneyGenerators.Shrinker(x.Third).GetEnumerator();
+
+            while (first.MoveNext()
+                && second.MoveNext()
+                && third.MoveNext())
             {
-                while (first.MoveNext()
-                    && second.MoveNext()
-                    && third.MoveNext())
-                {
-                    yield return new SameCurrency<T>(
-                        first.Current,
-                        second.Current,
-                        third.Current);
-                }
+                yield return new SameCurrency<T>(
+                    first.Current,
+                    second.Current,
+                    third.Current);
             }
         }
     }

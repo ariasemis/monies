@@ -32,17 +32,17 @@ namespace Monies.Internal
 
         public decimal Denominator { get; }
 
-        public int Sign => Math.Sign(Numerator);
+        public readonly int Sign => Math.Sign(Numerator);
 
-        public bool IsInfinity => Denominator == 0 && Numerator != 0;
+        public readonly bool IsInfinity => Denominator == 0 && Numerator != 0;
 
-        public bool IsPositiveInfinity => Denominator == 0 && Numerator > 0;
+        public readonly bool IsPositiveInfinity => Denominator == 0 && Numerator > 0;
 
-        public bool IsNegativeInfinity => Denominator == 0 && Numerator < 0;
+        public readonly bool IsNegativeInfinity => Denominator == 0 && Numerator < 0;
 
-        public bool IsNaN => Denominator == 0 && Numerator == 0;
+        public readonly bool IsNaN => Denominator == 0 && Numerator == 0;
 
-        public override string ToString()
+        public override readonly string ToString()
         {
             if (IsNaN) return "NaN";
 

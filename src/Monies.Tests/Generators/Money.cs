@@ -50,24 +50,23 @@ namespace Monies.Tests.Generators
             var amount = money.Amount;
             var currency = money.Currency;
 
-            using (var ds = Arb.Shrink(money.Amount).GetEnumerator())
-            using (var ss = Arb.Shrink(money.Currency).GetEnumerator())
+            using var ds = Arb.Shrink(money.Amount).GetEnumerator();
+            using var ss = Arb.Shrink(money.Currency).GetEnumerator();
+
+            while (ds.MoveNext())
             {
-                while (ds.MoveNext())
-                {
-                    amount = ds.Current;
+                amount = ds.Current;
 
-                    if (ss.MoveNext())
-                    {
-                        currency = ss.Current;
-                    }
-
-                    yield return Money.Create(amount, currency);
-                }
-                while (ss.MoveNext())
+                if (ss.MoveNext())
                 {
-                    yield return Money.Create(amount, ss.Current);
+                    currency = ss.Current;
                 }
+
+                yield return Money.Create(amount, currency);
+            }
+            while (ss.MoveNext())
+            {
+                yield return Money.Create(amount, ss.Current);
             }
         }
     }
