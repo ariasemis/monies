@@ -1,0 +1,2 @@
+group Analyzers
+    Microsoft.CodeAnalysis.PublicApiAnalyzers

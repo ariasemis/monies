@@ -1,5 +1,11 @@
 STORAGE: NONE
 
+GROUP Analyzers
+COPY-LOCAL: TRUE
+NUGET
+  remote: https://api.nuget.org/v3/index.json
+    Microsoft.CodeAnalysis.PublicApiAnalyzers (3.3.4)
+
 GROUP Test
 NUGET
   remote: https://api.nuget.org/v3/index.json
