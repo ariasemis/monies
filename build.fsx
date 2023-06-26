@@ -27,7 +27,7 @@ open Fake.Tools
 // *********************************
 // properties
 
-let sln = "./src/Monies.sln"
+let sln = "./Monies.sln"
 
 module BuildConfiguration =
     let get () =
