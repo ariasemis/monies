@@ -7,6 +7,9 @@
     <ProjectReference Include="..\Monies\Monies.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="72.1.0.3" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
