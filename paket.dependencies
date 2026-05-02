@@ -4,6 +4,7 @@ source https://api.nuget.org/v3/index.json
 group Test
     source https://api.nuget.org/v3/index.json
 
+    nuget Microsoft.ICU.ICU4C.Runtime 72.1.0.3
     nuget Microsoft.NET.Test.Sdk
     nuget xunit
     nuget xunit.runner.visualstudio

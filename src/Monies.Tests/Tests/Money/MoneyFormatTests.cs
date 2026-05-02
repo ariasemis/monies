@@ -77,7 +77,7 @@ namespace Monies.Tests
             => new TheoryData<Money<string>, IFormatProvider, string>
             {
                 { Money.Create(1043.17m, "$"), CultureInfo.CreateSpecificCulture("en-US"), "$1,043.17" },
-                { Money.Create(1043.17m, "€"), CultureInfo.CreateSpecificCulture("fr-FR"), "1 043,17 €" },
+                { Money.Create(1043.17m, "€"), CultureInfo.CreateSpecificCulture("fr-FR"), "1 043,17 €" },
                 { Money.Create(1043.17m, "$"), CultureInfo.CreateSpecificCulture("es-AR").NumberFormat, "$ 1.043,17" },
                 { Money.Create(1043.17m, "€"), CultureInfo.CreateSpecificCulture("de-DE").NumberFormat, "1.043,17 €" },
                 { Money.Create(1043.17m, "¤"), CultureInfo.InvariantCulture, "¤1,043.17" },
@@ -88,7 +88,7 @@ namespace Monies.Tests
             => new TheoryData<Money<CurrencyISO>, IFormatProvider, string>
             {
                 { Money.Create(1043.17m, CurrencyISO.Instance), CultureInfo.CreateSpecificCulture("en-US"), "USD1,043.17" },
-                { Money.Create(1043.17m, CurrencyISO.Instance), CultureInfo.CreateSpecificCulture("fr-FR"), "1 043,17 EUR" },
+                { Money.Create(1043.17m, CurrencyISO.Instance), CultureInfo.CreateSpecificCulture("fr-FR"), "1 043,17 EUR" },
                 { Money.Create(1043.17m, CurrencyISO.Instance), CultureInfo.CreateSpecificCulture("es-AR"), "ARS 1.043,17" },
             };
 
